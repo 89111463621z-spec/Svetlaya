@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -47,10 +48,10 @@
 <section class="hero">
   <div class="hero__main card-photo">
     <img src="assets/img/street-winter.jpg" alt="Заснеженная улица посёлка «Светлая Дача» с деревянными домами" fetchpriority="high">
+    <p class="tag hero__tag">Приозерский район · Карельский перешеек</p>
     <div class="hero__content">
-      <p class="eyebrow">Приозерский район · Карельский перешеек</p>
       <h1 class="hero__title">Светлая Дача</h1>
-      <p class="hero__lead">Готовые дома и&nbsp;участки в&nbsp;сосновом лесу, в&nbsp;10&nbsp;минутах от&nbsp;горнолыжных склонов Коробицыно. Газ в&nbsp;посёлке.</p>
+      <p class="hero__lead">Готовые дома и&nbsp;участки в&nbsp;сосновом лесу, в&nbsp;5–8&nbsp;минутах от&nbsp;горнолыжных склонов Коробицыно. Газ в&nbsp;посёлке.</p>
       <div class="hero__prices">
         <div><span>Дома</span><strong>от <b data-min="houses">3</b> млн&nbsp;₽</strong></div>
         <div><span>Участки</span><strong>от <b data-min="land">1,5</b> млн&nbsp;₽</strong></div>
@@ -79,7 +80,7 @@
 
 <!-- ============ ЦИФРЫ ============ -->
 <section class="facts" aria-label="Коротко о посёлке">
-  <div class="fact"><b>3 склона</b><span>«Снежный» и&nbsp;«Красное Озеро» в&nbsp;8–11&nbsp;минутах на&nbsp;машине</span></div>
+  <div class="fact"><b>3 склона</b><span>«Золотая Долина», «Снежный» и&nbsp;«Красное Озеро» в&nbsp;5–8&nbsp;минутах на&nbsp;машине</span></div>
   <div class="fact"><b>Газ</b><span>в&nbsp;посёлке</span></div>
   <div class="fact"><b data-count="lots">28</b><span>лотов в&nbsp;продаже: дома, половины дуплексов, участки</span></div>
   <div class="fact"><b>+2&nbsp;млн</b><span>и&nbsp;дом без ремонта становится домом под ключ</span></div>
@@ -94,7 +95,8 @@
   </div>
   <div class="location__grid">
     <div class="location__map card">
-      <iframe id="ymap" title="Посёлок «Светлая Дача» на Яндекс Картах" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div id="map" role="img" aria-label="Карта: посёлок «Светлая Дача» и горнолыжные курорты рядом"></div>
+      <a class="map__open" id="mapOpen" target="_blank" rel="noopener">Маршрут в&nbsp;Яндекс Картах</a>
     </div>
     <div class="routes-wrap"><ul class="routes" id="routes"></ul><p class="note">Время на&nbsp;машине без пробок, по&nbsp;данным OpenStreetMap.</p></div>
   </div>
@@ -113,7 +115,7 @@
     </article>
     <article class="pill">
       <div class="pill__img"><img src="assets/img/street-winter-sm.jpg" alt="Зимний посёлок" loading="lazy"><span class="pill__word">Склоны</span></div>
-      <p>Три горнолыжных курорта рядом: «Снежный» и&nbsp;«Красное Озеро»&nbsp;— около 10&nbsp;минут на&nbsp;машине, «Золотая Долина» чуть дальше.</p>
+      <p>Три горнолыжных курорта рядом: «Золотая Долина», «Снежный» и&nbsp;«Красное Озеро»&nbsp;— 5–8&nbsp;минут на&nbsp;машине.</p>
     </article>
     <article class="pill">
       <div class="pill__img"><img src="assets/img/house-side-sm.jpg" alt="Дом среди сосен" loading="lazy"><span class="pill__word">Озеро</span></div>
@@ -134,8 +136,8 @@
 <section class="section scenarios" id="for-life">
   <article class="scenario card-photo">
     <img src="assets/img/living-2-sm.jpg" alt="Уютная гостиная" loading="lazy">
+    <p class="tag scenario__tag">Сценарий 1</p>
     <div class="scenario__body">
-      <p class="eyebrow">Сценарий 1</p>
       <h3>Для жизни</h3>
       <ul>
         <li>Свой дом в&nbsp;лесу со&nbsp;всеми удобствами</li>
@@ -148,8 +150,8 @@
   </article>
   <article class="scenario card-photo">
     <img src="assets/img/evening.jpg" alt="Вечер в посёлке" loading="lazy">
+    <p class="tag scenario__tag">Сценарий 2</p>
     <div class="scenario__body">
-      <p class="eyebrow">Сценарий 2</p>
       <h3>Для дохода</h3>
       <ul>
         <li>Посуточная аренда у&nbsp;горнолыжных курортов</li>
@@ -361,6 +363,7 @@
 
 <div class="lightbox" id="lightbox" hidden><img alt=""><button aria-label="Закрыть">×</button></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="assets/js/plan-geo.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>

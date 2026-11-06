@@ -253,15 +253,32 @@
      ====================================================== */
   function drawLocation() {
     const L = window.LOCATION || {};
-    const map = $('#ymap');
-    if (L.lat && L.lon) {
-      map.src = `https://yandex.ru/map-widget/v1/?ll=${L.lon}%2C${L.lat}&z=${L.zoom || 11}&pt=${L.lon}%2C${L.lat}%2Cpm2orgl&l=map`;
-    } else {
-      map.src = 'https://yandex.ru/map-widget/v1/?text=' + encodeURIComponent('Мичуринское, Приозерский район, Ленинградская область') + '&z=11';
-    }
     const routes = L.routes || [];
     $('#routes').innerHTML = routes.map((r) => `
       <li class="${r.key ? 'is-key' : ''}"><span>${r.name}</span><b>${r.time}<small>${r.unit || 'мин'}</small></b></li>`).join('');
+    $('#mapOpen').href = `https://yandex.ru/maps/?rtext=~${L.lat}%2C${L.lon}&rtt=auto`;
+
+    const box = $('#map');
+    if (!window.L || !box) return;
+    const map = window.L.map(box, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
+    window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+    const icon = (cls, label) => window.L.divIcon({
+      className: 'mk ' + cls, iconSize: null,
+      html: `<span class="mk__dot"></span><span class="mk__label">${label}</span>`,
+    });
+    const home = [L.lat, L.lon];
+    const pts = (L.points || []).map((pt) => [pt.lat, pt.lon]);
+    (L.points || []).forEach((pt) => {
+      window.L.polyline([home, [pt.lat, pt.lon]], { color: '#e8a35b', weight: 1, opacity: .45, dashArray: '4 6' }).addTo(map);
+    });
+    (L.points || []).forEach((pt) => {
+      window.L.marker([pt.lat, pt.lon], { icon: icon('mk--' + pt.kind, pt.name), keyboard: false }).addTo(map);
+    });
+    window.L.marker(home, { icon: icon('mk--home', 'Светлая Дача'), zIndexOffset: 1000 }).addTo(map);
+    map.fitBounds(window.L.latLngBounds([home, ...pts]), { paddingTopLeft: [40, 40], paddingBottomRight: [170, 70] });
   }
 
   /* ======================================================
