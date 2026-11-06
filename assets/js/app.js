@@ -15,7 +15,6 @@
   };
   const rub = (v) => Math.round(v).toLocaleString('ru-RU') + ' ₽';
   const sot = (m2) => (m2 / 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + ' сот.';
-  const shortCad = (c) => (c ? c.replace('47:03:1001001:', '…:') : '');
 
   /* ---------- минимальные цены и счётчики ---------- */
   const houseLots = LOTS.filter((l) => l.type !== 'land');
@@ -154,8 +153,8 @@
     const alt = l.type === 'house' && !l.renov
       ? `<span class="lot__alt">С ремонтом под ключ: ${mln(l.price + RENO)}</span>`
       : l.type === 'duplex' && !l.renov
-        ? '<span class="lot__alt">Ремонт по запросу, стоимость по запросу</span>' : '';
-    const cad = l.cad ? `<span class="lot__cad">${l.type === 'duplex' ? '½ дома и ½ земли под ним · ' : ''}кад. № ${l.cad}</span>` : '';
+        ? '<span class="lot__alt">Ремонт — по запросу</span>' : '';
+    const cad = l.type === 'duplex' ? '<span class="lot__cad">½ дома и ½ земли под ним</span>' : '';
     return `<div class="lot">
       <div class="lot__top"><span class="lot__name">${l.title}</span>${badge}</div>
       <span class="lot__price">${mln(l.price)}</span>${alt}${cad}
@@ -172,15 +171,15 @@
       ? (lots.some((l) => l.renov) ? 'living-sm.jpg' : 'house-side-sm.jpg')
       : (data.area >= 1000 ? 'yard-sm.jpg' : 'street-winter-sm.jpg');
     const meta = built
-      ? `Земля ${data.area} м² (${sot(data.area)}), кад. № <code>${data.cad}</code>.<br>Цена дома уже включает землю под ним.${lots.some((l) => l.type === 'duplex') ? ' Дуплекс делится на&nbsp;двух хозяев: каждому ½ дома и&nbsp;½ земли под ним.' : ''}<br>Дома 65–72&nbsp;м²: кухня-гостиная, 2&nbsp;спальни, 4+2 места.`
-      : `${data.area} м² · ${(data.price / data.area * 100).toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽ за сотку${data.cad ? `<br>Кад. № <code>${data.cad}</code>` : '<br>Кадастровый номер&nbsp;— по запросу'}`;
+      ? `Земля ${data.area} м² (${sot(data.area)}).<br>Цена дома уже включает землю под ним.${lots.some((l) => l.type === 'duplex') ? ' Дуплекс делится на&nbsp;двух хозяев: каждому ½ дома и&nbsp;½ земли под ним.' : ''}<br>Дома 65–72&nbsp;м²: кухня-гостиная, 2&nbsp;спальни, 4+2 места.`
+      : `${data.area} м² · ${(data.price / data.area * 100).toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽ за сотку`;
 
     panel.innerHTML = `
       <div class="panel__title"><h3>Участок ${id}</h3><span class="badge">${built ? 'С домами' : 'Свободный'}</span></div>
       <p class="panel__meta">${meta}</p>
       <div class="panel__lots">${lots.map(lotCard).join('')}</div>
       ${lots.some((l) => l.type === 'house' && !l.renov) ? '<p class="note panel__note">Ремонт под ключ для дома без ремонта&nbsp;— 2&nbsp;млн&nbsp;₽. Заезжаете в&nbsp;готовый дом.</p>' : ''}
-      ${lots.some((l) => l.type === 'duplex' && !l.renov) ? '<p class="note panel__note">Для половины дуплекса без ремонта сделаем ремонт по&nbsp;запросу, стоимость рассчитаем индивидуально.</p>' : ''}
+      ${lots.some((l) => l.type === 'duplex' && !l.renov) ? '<p class="note panel__note">Ремонт в&nbsp;дуплексе&nbsp;— по&nbsp;запросу, стоимость рассчитаем индивидуально.</p>' : ''}
       <div class="panel__photo"><img src="assets/img/${photo}" alt="" loading="lazy"></div>
       <div class="panel__actions">
         <button class="btn btn--light" data-open-callback data-lot="Участок ${id}">Узнать подробнее</button>
@@ -205,10 +204,10 @@
         : l.type === 'duplex' && !l.renov ? '<small>ремонт по запросу</small>' : '';
       const btn = l.plot
         ? `<button data-goto="${l.plot}">На плане</button>`
-        : `<button data-open-callback data-lot="Участок ${l.plotArea} м² (${l.plotCad})">Узнать</button>`;
+        : `<button data-open-callback data-lot="Участок ${l.plotArea} м²">Узнать</button>`;
       return `<div class="lots__row" role="row" data-lot-id="${l.id}">
         <span role="cell">${l.plot ? `№ ${l.plot}` : '—'}</span>
-        <span role="cell"><i class="dot" style="background:${color}"></i>${l.title}<span class="muted">${l.cad ? 'кад. № ' + shortCad(l.cad) : (l.note || (l.plotCad ? 'кад. № ' + shortCad(l.plotCad) : ''))}</span></span>
+        <span role="cell"><i class="dot" style="background:${color}"></i>${l.title}${l.note ? `<span class="muted">${l.note}</span>` : ''}</span>
         <span role="cell">${land}</span>
         <span role="cell" class="price">${mln(l.price)}${alt}</span>
         <span role="cell">${btn}</span>
