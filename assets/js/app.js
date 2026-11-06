@@ -52,8 +52,20 @@
 
   function lotsOfPlot(id) { return LOTS.filter((l) => l.plot === id); }
 
+  // На телефоне план поворачиваем на 90°, чтобы он целиком помещался по ширине экрана.
+  const mqPortrait = window.matchMedia('(max-width: 860px)');
+  let ROT = false;
+  const tp = (p) => (ROT ? [+(G.h - p[1]).toFixed(1), p[0]] : p);
+  const tps = (arr) => pts(arr.map(tp));
+  let activePlot = null;
+
   function drawPlan() {
-    svg.setAttribute('viewBox', `-10 -10 ${G.w + 20} ${G.h + 20}`);
+    ROT = mqPortrait.matches;
+    svg.innerHTML = '';
+    for (const k in plotGroups) delete plotGroups[k];
+    svg.classList.toggle('is-rot', ROT);
+    const W = ROT ? G.h : G.w, H = ROT ? G.w : G.h;
+    svg.setAttribute('viewBox', `-10 -10 ${W + 20} ${H + 20}`);
 
     // мягкая тень под посёлком
     const defs = el('defs', {}, svg);
@@ -63,17 +75,20 @@
     const base = el('g', { filter: 'url(#soft)' }, svg);
     // общая зона (дороги, проезды) — номера 1.1 и 1.2 на плане межевания
     G.plots.filter((p) => !window.PLOTS[p.id]).forEach((p) => {
-      el('polygon', { points: pts(p.pts), class: 'p-common' }, base);
+      el('polygon', { points: tps(p.pts), class: 'p-common' }, base);
     });
     // подложка-силуэт всех участков, чтобы между ними не было щелей
     G.plots.filter((p) => window.PLOTS[p.id]).forEach((p) => {
-      el('polygon', { points: pts(p.pts), fill: '#1b2a25' }, base);
+      el('polygon', { points: tps(p.pts), fill: '#1b2a25' }, base);
     });
 
     // ось главной улицы
-    el('path', { d: 'M 30 413 L 640 413 L 640 610', class: 'p-road-axis' }, svg);
-    const lbl = el('text', { x: 300, y: 418, class: 'p-label-common', 'text-anchor': 'middle' }, svg);
-    lbl.textContent = 'улица';
+    const ax = [[30, 413], [640, 413], [640, 610]].map(tp);
+    el('path', { d: `M ${ax[0]} L ${ax[1]} L ${ax[2]}`, class: 'p-road-axis' }, svg);
+    if (!ROT) {
+      const lbl = el('text', { x: 300, y: 418, class: 'p-label-common', 'text-anchor': 'middle' }, svg);
+      lbl.textContent = 'улица';
+    }
 
     // участки
     G.plots.filter((p) => window.PLOTS[p.id]).forEach((p) => {
@@ -85,11 +100,12 @@
         tabindex: 0, role: 'button', 'data-plot': p.id,
         'aria-label': `Участок ${p.id}, ${data.area} м²`,
       }, svg);
-      el('polygon', { points: pts(p.pts), class: 'shape' }, g);
+      el('polygon', { points: tps(p.pts), class: 'shape' }, g);
 
       // дома
       if (built) {
-        p.houses.forEach((h, i) => {
+        p.houses.forEach((h0, i) => {
+          const h = h0.map(tp);
           el('polygon', { points: pts(h), class: 'p-house' }, g);
           const isDuplex = p.hArea[i] > 4500; // пятно дуплекса ~75 м², дома ~45 м²
           if (isDuplex) {
@@ -104,14 +120,24 @@
       }
 
       // подписи
-      const [cx, cy] = p.c;
-      const num = el('text', { x: cx, y: built ? cy - 2 : cy - 10, class: 'p-num' }, g);
-      num.textContent = p.id;
-      if (!built) {
-        const sub = el('text', { x: cx, y: cy + 12, class: 'p-sub' }, g);
-        sub.textContent = sot(data.area);
-        const pr = el('text', { x: cx, y: cy + 32, class: 'p-price' }, g);
-        pr.textContent = mln(data.price);
+      const [cx, cy] = tp(p.c);
+      if (ROT) {
+        // на телефоне — номер и цена, крупнее
+        const num = el('text', { x: cx, y: built ? cy + 10 : cy - 4, class: 'p-num' }, g);
+        num.textContent = p.id;
+        if (!built) {
+          const pr = el('text', { x: cx, y: cy + 28, class: 'p-price' }, g);
+          pr.textContent = mln(data.price);
+        }
+      } else {
+        const num = el('text', { x: cx, y: built ? cy - 2 : cy - 10, class: 'p-num' }, g);
+        num.textContent = p.id;
+        if (!built) {
+          const sub = el('text', { x: cx, y: cy + 12, class: 'p-sub' }, g);
+          sub.textContent = sot(data.area);
+          const pr = el('text', { x: cx, y: cy + 32, class: 'p-price' }, g);
+          pr.textContent = mln(data.price);
+        }
       }
 
       g.addEventListener('click', () => selectPlot(p.id));
@@ -162,6 +188,7 @@
   }
 
   function selectPlot(id) {
+    activePlot = id;
     Object.values(plotGroups).forEach((g) => g.classList.remove('is-active'));
     plotGroups[id]?.classList.add('is-active');
     const data = window.PLOTS[id];
@@ -409,6 +436,12 @@
   drawPlan();
   drawTable();
   applyFilter('all');
+  // при повороте экрана перерисовываем план в нужной ориентации
+  mqPortrait.addEventListener('change', () => {
+    drawPlan();
+    applyFilter(currentFilter);
+    if (activePlot) plotGroups[activePlot]?.classList.add('is-active');
+  });
   drawLocation();
   initCalc();
   drawGallery();

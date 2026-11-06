@@ -415,9 +415,8 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
   .gallery__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
   .plan__wrap { grid-template-columns: 1fr; height: auto; }
   .plan__panel { max-height: none; }
-  .plan__canvas { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  #planSvg { min-width: 760px; height: auto; }
-  .plan__hint { display: block !important; }
+  .plan__canvas { padding: 10px; }
+  #planSvg { height: auto; }
   .lots__row > :nth-child(5) { justify-self: end; }
   .cta__card { min-height: 300px; }
   .lots__row { grid-template-columns: 60px 1fr auto; grid-template-areas: 'n lot price' 'n land btn'; row-gap: 4px; }
@@ -633,3 +632,25 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .bento__icon { width: 54px; height: 40px; color: var(--accent); }
 .bento__big { position: absolute; right: clamp(16px, 2vw, 24px); top: clamp(10px, 1.6vw, 18px); font-weight: 300; font-size: clamp(34px, 3.6vw, 52px); letter-spacing: -.03em; color: var(--accent); line-height: 1; }
 .bento__big small { font-size: .38em; color: var(--muted); letter-spacing: 0; }
+
+/* план на телефоне (повёрнут): крупные подписи */
+#planSvg.is-rot .p-num { font-size: 34px; }
+#planSvg.is-rot .p-price { font-size: 22px; font-weight: 600; }
+
+/* фильтры и пометки — ровной сеткой, без «лесенки» */
+@media (max-width: 860px) {
+  .filters { display: grid; grid-template-columns: repeat(6, 1fr); width: 100%; }
+  .filters .chip { grid-column: span 2; padding: 10px 6px; text-align: center; }
+  .filters .chip:nth-child(n+4) { grid-column: span 3; }
+  .dots { display: grid; grid-template-columns: 1fr 1fr; }
+  .dots li { display: flex; align-items: center; min-height: 44px; font-size: 13px; padding: 8px 12px 8px 28px; line-height: 1.3; }
+  .dots li::before { left: 13px; }
+}
+
+/* без «дёрганий» на телефоне: высота экрана не зависит от панели браузера,
+   блоки не выезжают при прокрутке */
+@media (max-width: 860px) {
+  .hero__main { min-height: 620px !important; }
+  .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
