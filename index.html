@@ -201,10 +201,17 @@
   </div>
 
   <div class="lots">
-    <div class="lots__head">
-      <h3>Все лоты</h3>
-      <span class="lots__count" id="lotsCount"></span>
+    <div class="lots__bar">
+      <button class="btn btn--ghost lots__toggle" id="lotsToggle" aria-expanded="false" aria-controls="lotsPanel">
+        <span>Смотреть все лоты списком</span><span class="lots__count" id="lotsCount"></span>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6 L8 11 L13 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <a class="btn btn--light" href="assets/svetlaya-dacha-price.pdf" download="Светлая Дача — прайс-лист.pdf">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Скачать прайс-лист (PDF)
+      </a>
     </div>
+    <div class="lots__panel" id="lotsPanel" hidden>
     <div class="lots__table" role="table" aria-label="Список лотов">
       <div class="lots__row lots__row--head" role="row">
         <span role="columnheader">Участок</span>
@@ -214,6 +221,7 @@
         <span role="columnheader"></span>
       </div>
       <div id="lotsBody"></div>
+    </div>
     </div>
   </div>
 </section>

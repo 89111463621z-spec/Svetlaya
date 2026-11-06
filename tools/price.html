@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Светлая Дача — прайс-лист</title>
+<!-- Шаблон прайс-листа. PDF собирается командой: node tools/make-price.js
+     Данные берутся из assets/js/data.js — правьте цены там. -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 400 9.5pt/1.35 'Manrope', Arial, sans-serif; color: #1c2a25; background: #fff; }
+  .page { padding: 12mm 14mm 10mm; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 5mm; border-bottom: 1px solid #d9dfdb; }
+  .brand { display: flex; gap: 10px; align-items: center; }
+  .brand svg { width: 34px; height: 34px; color: #c97f38; }
+  .brand b { display: block; font-weight: 500; font-size: 20pt; letter-spacing: -.02em; line-height: 1; }
+  .brand span { color: #6b7a74; font-size: 9pt; }
+  .meta { text-align: right; color: #6b7a74; font-size: 9pt; }
+  .meta strong { display: block; color: #1c2a25; font-size: 12pt; font-weight: 500; }
+  h2 { font-weight: 400; font-size: 13pt; margin: 5mm 0 2mm; letter-spacing: -.01em; }
+  h2 small { color: #6b7a74; font-size: 9pt; margin-left: 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-weight: 500; font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: #6b7a74; padding: 0 6px 5px; border-bottom: 1px solid #d9dfdb; }
+  td { padding: 3.4px 6px; border-bottom: 1px solid #eef1ef; vertical-align: top; }
+  td.num { width: 22mm; color: #6b7a74; }
+  td.price { width: 30mm; text-align: right; font-weight: 500; white-space: nowrap; }
+  th.price { text-align: right; }
+  td.note { color: #a8652a; font-size: 9pt; }
+  .tag { display: inline-block; font-size: 8pt; padding: 1px 7px; border-radius: 99px; border: 1px solid #d9dfdb; color: #6b7a74; margin-left: 4px; }
+  .tag.ok { border-color: #e8b98a; color: #a8652a; }
+  .notes { margin-top: 5mm; padding: 4mm 5mm; background: #f4f6f4; border-radius: 4mm; font-size: 9pt; color: #44524c; }
+  .notes p { margin: 0 0 1mm; }
+  footer { margin-top: 4mm; display: flex; justify-content: space-between; align-items: center; font-size: 9pt; color: #6b7a74; }
+  footer b { color: #1c2a25; font-size: 13pt; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M6 30 L20 12 L34 30" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 30 V22 M28 30 V22" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="20" cy="7" r="2.2" fill="currentColor"/>
+        <path d="M3 33 H37" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+      <div><b>Светлая Дача</b><span>Приозерский район, КП Светлое Дача · 3,5 км от пос. Мичуринское</span></div>
+    </div>
+    <div class="meta"><strong>Прайс-лист</strong><span id="date"></span></div>
+  </header>
+
+  <h2>Дома <small>цена включает землю под домом</small></h2>
+  <table><thead><tr><th>Участок</th><th>Лот</th><th></th><th class="price">Цена</th></tr></thead><tbody id="houses"></tbody></table>
+
+  <h2>Половины дуплексов <small>½ дома и ½ земли под ним</small></h2>
+  <table><thead><tr><th>Участок</th><th>Лот</th><th></th><th class="price">Цена</th></tr></thead><tbody id="duplex"></tbody></table>
+
+  <h2>Земельные участки</h2>
+  <table><thead><tr><th>Участок</th><th>Площадь</th><th>За сотку</th><th class="price">Цена</th></tr></thead><tbody id="land"></tbody></table>
+
+  <div class="notes">
+    <p>Дома 65–72 м²: кухня-гостиная на первом этаже, 2 спальни наверху, 4+2 спальных места. Газ в посёлке.</p>
+    <p>Ремонт под ключ для отдельного дома без ремонта — 2 млн ₽. Ремонт в дуплексе — по запросу.</p>
+    <p>В посёлке работает посуточная аренда: дом можно передать в управление. Условия — по запросу.</p>
+    <p>Информация не является публичной офертой. Номера участков — по плану посёлка на сайте.</p>
+  </div>
+
+  <footer>
+    <span>Отдел продаж</span>
+    <b>+7 921 413-38-72</b>
+  </footer>
+</div>
+
+<script src="../assets/js/data.js"></script>
+<script>
+  const mln = (v) => { const m = v / 1e6; return (Number.isInteger(m) ? m.toFixed(1) : String(+m.toFixed(2))).replace('.', ',') + ' млн ₽'; };
+  const sot = (m2) => (m2 / 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + ' сот.';
+  const RENO = window.SITE.renovationPrice;
+  const lots = window.buildLots();
+  const num = (l) => (l.plot ? '№ ' + l.plot : '—');
+  const tag = (l) => (l.renov ? '<span class="tag ok">с ремонтом</span>' : '<span class="tag">без ремонта</span>');
+  document.getElementById('houses').innerHTML = lots.filter((l) => l.type === 'house').map((l) =>
+    `<tr><td class="num">${num(l)}</td><td>Дом ${tag(l)}</td><td class="note">${!l.renov ? 'с ремонтом под ключ — ' + mln(l.price + RENO) : ''}</td><td class="price">${mln(l.price)}</td></tr>`).join('');
+  document.getElementById('duplex').innerHTML = lots.filter((l) => l.type === 'duplex').map((l) =>
+    `<tr><td class="num">${num(l)}</td><td>½ дуплекса ${tag(l)}</td><td class="note">${!l.renov ? 'ремонт — по запросу' : ''}</td><td class="price">${mln(l.price)}</td></tr>`).join('');
+  document.getElementById('land').innerHTML = lots.filter((l) => l.type === 'land').map((l) =>
+    `<tr><td class="num">${num(l)}</td><td>${sot(l.plotArea)} · ${l.plotArea} м²</td><td>${Math.round(l.price / l.plotArea * 100).toLocaleString('ru-RU')} ₽</td><td class="price">${mln(l.price)}</td></tr>`).join('');
+  const d = new Date();
+  document.getElementById('date').textContent = 'актуально на ' + d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+</script>
+</body>
+</html>

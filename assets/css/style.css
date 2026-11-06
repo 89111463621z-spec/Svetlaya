@@ -256,9 +256,15 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .panel__actions { display: grid; gap: 8px; margin-top: 20px; }
 
 /* таблица лотов */
-.lots { margin-top: 48px; }
-.lots__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+.lots { margin-top: 24px; }
+.lots__bar { display: flex; flex-wrap: wrap; gap: 10px; }
+.lots__bar .btn { gap: 10px; }
+.lots__bar svg { width: 16px; height: 16px; flex: none; }
+.lots__toggle svg { transition: transform .3s; }
+.lots__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 .lots__count { color: var(--muted); font-size: 14px; }
+.lots__count:not(:empty)::before { content: '· '; }
+.lots__panel { margin-top: 20px; }
 .lots__table { border-top: 1px solid var(--line); }
 .lots__row {
   display: grid; grid-template-columns: 110px 1.4fr 1fr 1fr 140px; gap: 16px; align-items: center;
@@ -501,3 +507,5 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .b24-wrap .b24-form-sign, .b24-wrap .b24-form-sign a { color: var(--muted) !important; font-size: 11.5px !important; }
 .b24-wrap .b24-form-border-bottom { border-bottom: 0 !important; }
 .b24-wrap .b24-form-wrapper::after { display: none !important; }
+
+@media (max-width: 520px) { .lots__bar .btn { width: 100%; } }

@@ -237,6 +237,15 @@
   }
 
   $$('.chip').forEach((c) => c.addEventListener('click', () => applyFilter(c.dataset.filter)));
+
+  /* список лотов свёрнут по умолчанию */
+  const lotsToggle = $('#lotsToggle'), lotsPanel = $('#lotsPanel');
+  lotsToggle.addEventListener('click', () => {
+    const open = lotsPanel.hidden;
+    lotsPanel.hidden = !open;
+    lotsToggle.setAttribute('aria-expanded', open);
+    $('span', lotsToggle).textContent = open ? 'Свернуть список' : 'Смотреть все лоты списком';
+  });
   $$('[data-filter-link]').forEach((a) => a.addEventListener('click', () => applyFilter(a.dataset.filterLink)));
 
   /* ======================================================
