@@ -302,7 +302,7 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .calc__row { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--line); }
 .calc__row span { color: var(--muted); }
 .calc__row b { font-weight: 500; }
-.market { margin-top: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.market { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
 .market:empty { display: none; }
 .market__item { padding: 22px 24px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--line); }
 .market__item b { display: block; font-size: 26px; font-weight: 300; }

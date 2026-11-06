@@ -153,7 +153,7 @@
       : '<span class="badge">Без ремонта</span>';
     const alt = l.type === 'house' && !l.renov
       ? `<span class="lot__alt">С ремонтом под ключ: ${mln(l.price + RENO)}</span>` : '';
-    const cad = l.cad ? `<span class="lot__cad">Дом: кад. № ${l.cad}${l.type === 'duplex' ? ' (½ доли)' : ''}</span>` : '';
+    const cad = l.cad ? `<span class="lot__cad">${l.type === 'duplex' ? '½ дома и ½ земли под ним · ' : ''}кад. № ${l.cad}</span>` : '';
     return `<div class="lot">
       <div class="lot__top"><span class="lot__name">${l.title}</span>${badge}</div>
       <span class="lot__price">${mln(l.price)}</span>${alt}${cad}
@@ -170,7 +170,7 @@
       ? (lots.some((l) => l.renov) ? 'living-sm.jpg' : 'house-side-sm.jpg')
       : (data.area >= 1000 ? 'yard-sm.jpg' : 'street-winter-sm.jpg');
     const meta = built
-      ? `Земля ${data.area} м² (${sot(data.area)}), кад. № <code>${data.cad}</code>.<br>Участок общий для хозяев домов на&nbsp;нём&nbsp;— долевая собственность. Цена дома уже включает землю.`
+      ? `Земля ${data.area} м² (${sot(data.area)}), кад. № <code>${data.cad}</code>.<br>Цена дома уже включает землю под ним.${lots.some((l) => l.type === 'duplex') ? ' Дуплекс делится на&nbsp;двух хозяев: каждому ½ дома и&nbsp;½ земли под ним.' : ''}<br>Дома 65–72&nbsp;м²: кухня-гостиная, 2&nbsp;спальни, 4+2 места.`
       : `${data.area} м² · ${(data.price / data.area * 100).toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽ за сотку${data.cad ? `<br>Кад. № <code>${data.cad}</code>` : '<br>Кадастровый номер&nbsp;— по запросу'}`;
 
     panel.innerHTML = `
@@ -195,7 +195,9 @@
       const color = l.type === 'land' ? 'var(--land)' : l.renov ? 'var(--renov)' : 'var(--norenov)';
       const land = l.type === 'land'
         ? `${sot(l.plotArea)}<span class="muted">${l.plotArea} м²</span>`
-        : `общий ${l.plotArea} м²<span class="muted">доля в участке</span>`;
+        : l.type === 'duplex'
+          ? `½ земли под дуплексом<span class="muted">участок ${l.plotArea} м²</span>`
+          : `земля под домом<span class="muted">участок ${l.plotArea} м²</span>`;
       const alt = l.type === 'house' && !l.renov ? `<small>с ремонтом ${mln(l.price + RENO)}</small>` : '';
       const btn = l.plot
         ? `<button data-goto="${l.plot}">На плане</button>`
@@ -290,10 +292,10 @@
   const GALLERY = [
     ['street-winter', 'Улица посёлка зимой', 'wide'], ['living', 'Гостиная', 'tall'], ['kitchen', 'Кухня', 'tall'],
     ['evening', 'Вечер в посёлке', 'wide'], ['bedroom', 'Спальня', 'tall'], ['house-side', 'Дом среди сосен', 'tall'],
-    ['sauna', 'Баня', 'wide'], ['bath', 'Санузел', ''], ['stairs', 'Лестница на мансарду', ''],
+    ['sauna', 'Интерьер', 'wide'], ['bath', 'Санузел', ''], ['stairs', 'Лестница на мансарду', ''],
     ['yard', 'Двор и детская площадка', 'wide'], ['attic-bedroom', 'Спальня в мансарде', ''], ['living-2', 'Гостиная', 'tall'],
     ['hall', 'Прихожая', 'tall'], ['shower', 'Душевая', ''], ['house-back', 'Дом зимой', ''],
-    ['kids', 'Детская', ''], ['desk', 'Рабочее место', ''], ['door', 'Крыльцо', 'wide'], ['sauna-3', 'Парная', ''],
+    ['kids', 'Детская', ''], ['desk', 'Рабочее место', ''], ['door', 'Крыльцо', 'wide'], ['sauna-3', 'Интерьер', ''],
   ];
   function drawGallery() {
     $('#galleryGrid').innerHTML = GALLERY.map(([f, alt, cls]) =>

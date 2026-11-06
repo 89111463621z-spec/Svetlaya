@@ -97,11 +97,11 @@ window.buildLots = function () {
   return lots;
 };
 
-/* Точка посёлка: адрес «КП Светлое Дача», 3,5 км от пос. Мичуринское
-   (координаты из карточки объекта на mirturbaz.ru — подтвердить по кадастру).
+/* Точка посёлка: Яндекс Карты, организация «Светлая Дача»,
+   адрес «коттеджный посёлок Светлое Дача, 10/2», Мичуринское с.п.
    Время в пути — расчёт по данным OpenStreetMap (OSRM), без учёта пробок. */
 window.LOCATION = {
-  lat: 60.55544, lon: 29.810204, zoom: 11,
+  lat: 60.555521, lon: 29.809875, zoom: 11,
   routes: [
     { name: 'Горнолыжный курорт «Снежный»', time: '8', key: true },
     { name: 'Горнолыжный курорт «Красное Озеро»', time: '11', key: true },
@@ -119,7 +119,9 @@ window.MARKET = {
   cards: [
     { value: '≈ 7 000 ₽', label: 'медиана за ночь в будни: домики на 4–6 гостей рядом с посёлком, 15 объявлений' },
     { value: '≈ 8 800 ₽', label: 'медиана за ночь в выходные; летом и в праздники цены выше в 1,5–2 раза' },
+    { value: '14–22 тыс. ₽', label: 'за ночь в новогодние праздники: цены домов, которые уже сдаются в этом посёлке' },
+    { value: 'от 70 000 ₽', label: 'в месяц: долгосрочная аренда дома в этом посёлке' },
     { value: '13 000 ₽', label: 'средняя посуточная цена загородного дома в Ленобласти, +5% за год (Циан, 2026)' },
   ],
-  sources: '<a href="https://www.krasnoeozero.ru/" target="_blank" rel="noopener">krasnoeozero.ru</a>, <a href="https://mirturbaz.ru/russia/leningradskaya/michurinskoe1/kottedzh" target="_blank" rel="noopener">mirturbaz.ru</a>, <a href="https://101hotels.com/main/cities/corobicyno/cottages" target="_blank" rel="noopener">101hotels.com</a>, <a href="https://www.cnews.ru/news/line/2026-07-02_leningradskaya_oblast_voshla" target="_blank" rel="noopener">CNews / Циан</a>. Загрузка 35% по умолчанию — наше допущение: открытой статистики загрузки частных домов в районе нет.',
+  sources: '<a href="https://svetlaya-dacha.ru/" target="_blank" rel="noopener">svetlaya-dacha.ru</a>, <a href="https://www.krasnoeozero.ru/" target="_blank" rel="noopener">krasnoeozero.ru</a>, <a href="https://mirturbaz.ru/russia/leningradskaya/michurinskoe1/kottedzh" target="_blank" rel="noopener">mirturbaz.ru</a>, <a href="https://101hotels.com/main/cities/corobicyno/cottages" target="_blank" rel="noopener">101hotels.com</a>, <a href="https://www.cnews.ru/news/line/2026-07-02_leningradskaya_oblast_voshla" target="_blank" rel="noopener">CNews / Циан</a>. Загрузка 35% по умолчанию — наше допущение: открытой статистики загрузки частных домов в районе нет.',
 };
