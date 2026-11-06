@@ -445,3 +445,8 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .manage__note { grid-column: 1 / -1; }
 @media (max-width: 860px) { .manage { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .manage__list { grid-template-columns: 1fr; } }
+
+.hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }
+.form__err { font-size: 14px; color: #f0a093; }
+.form__err a { color: var(--text); text-decoration: underline; }
+.form .btn:disabled { opacity: .6; cursor: progress; }

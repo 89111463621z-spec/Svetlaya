@@ -343,27 +343,55 @@
   }
   $$('input[type=tel]').forEach(maskPhone);
 
-  /* Заявка уходит менеджеру в WhatsApp с готовым текстом.
-     Когда подключите CRM или сервис форм, замените sendLead(). */
-  function sendLead(form) {
+  /* ---------- UTM-метки рекламы: запоминаем на время визита ---------- */
+  const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  (function saveUtm() {
+    const q = new URLSearchParams(location.search);
+    UTM_KEYS.forEach((k) => {
+      if (q.get(k)) { try { sessionStorage.setItem(k, q.get(k)); } catch (e) { /* приватный режим */ } }
+    });
+  })();
+  const getUtm = (k) => { try { return sessionStorage.getItem(k) || ''; } catch (e) { return ''; } };
+
+  /* Заявка уходит в Битрикс24 (лид) через api/lead.php на сервере. */
+  async function sendLead(form) {
     const fd = new FormData(form);
-    const lines = ['Заявка с сайта «Светлая Дача»'];
-    if (fd.get('name')) lines.push('Имя: ' + fd.get('name'));
-    lines.push('Телефон: ' + fd.get('phone'));
-    if (fd.get('goal')) lines.push('Цель: ' + fd.get('goal'));
-    if (fd.get('lot')) lines.push('Интересует: ' + fd.get('lot'));
-    window.open(`${window.SITE.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+    const payload = {
+      name: fd.get('name') || '',
+      phone: fd.get('phone') || '',
+      goal: fd.get('goal') || '',
+      lot: fd.get('lot') || '',
+      website: fd.get('website') || '',
+      form: form.dataset.formName || '',
+      page: location.href,
+    };
+    UTM_KEYS.forEach((k) => (payload[k] = getUtm(k)));
+    const res = await fetch(window.SITE.leadEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('lead ' + res.status);
   }
 
-  $$('#leadForm, [data-lead]').forEach((form) => form.addEventListener('submit', (e) => {
+  $$('#leadForm, [data-lead]').forEach((form) => form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const phone = $('input[type=tel]', form);
     const ok = phone.value.replace(/\D/g, '').length === 11;
     const consent = $('input[type=checkbox]', form).checked;
     phone.classList.toggle('is-error', !ok);
     if (!ok || !consent) return;
-    sendLead(form);
-    form.innerHTML = '<div class="form__ok">Спасибо! Заявка отправлена. Менеджер свяжется с&nbsp;вами в&nbsp;ближайшее время.</div>';
+    const btn = $('button[type=submit]', form);
+    btn.disabled = true; btn.textContent = 'Отправляем…';
+    try {
+      await sendLead(form);
+      form.innerHTML = '<div class="form__ok">Спасибо! Заявка отправлена. Менеджер свяжется с&nbsp;вами в&nbsp;ближайшее время.</div>';
+    } catch (err) {
+      btn.disabled = false; btn.textContent = 'Жду звонка';
+      let msg = $('.form__err', form);
+      if (!msg) { msg = document.createElement('p'); msg.className = 'form__err'; form.appendChild(msg); }
+      msg.innerHTML = `Не получилось отправить заявку. Позвоните нам: <a href="${window.SITE.phoneHref}">${window.SITE.phone}</a>`;
+    }
   }));
 
   /* ---------- меню ---------- */
