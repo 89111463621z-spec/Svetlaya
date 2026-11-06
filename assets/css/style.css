@@ -654,3 +654,11 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
   .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* телефон: цифры первого экрана идут под кнопками, а не поверх них */
+@media (max-width: 860px) {
+  .hero__main { min-height: 0 !important; height: auto; justify-content: flex-start; }
+  .hero__content { padding: 104px 18px 0; }
+  .hero__content .tag { font-size: 11px; letter-spacing: .08em; padding: 7px 12px; }
+  .hero__stats { position: relative; inset: auto; margin-top: 28px; padding: 18px 12px 22px; border-top: 1px solid rgba(236,232,222,.18); }
+}
