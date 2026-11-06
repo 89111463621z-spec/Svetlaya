@@ -152,7 +152,9 @@
       : l.renov ? '<span class="badge badge--renov">С ремонтом</span>'
       : '<span class="badge">Без ремонта</span>';
     const alt = l.type === 'house' && !l.renov
-      ? `<span class="lot__alt">С ремонтом под ключ: ${mln(l.price + RENO)}</span>` : '';
+      ? `<span class="lot__alt">С ремонтом под ключ: ${mln(l.price + RENO)}</span>`
+      : l.type === 'duplex' && !l.renov
+        ? '<span class="lot__alt">Ремонт по запросу, стоимость по запросу</span>' : '';
     const cad = l.cad ? `<span class="lot__cad">${l.type === 'duplex' ? '½ дома и ½ земли под ним · ' : ''}кад. № ${l.cad}</span>` : '';
     return `<div class="lot">
       <div class="lot__top"><span class="lot__name">${l.title}</span>${badge}</div>
@@ -178,6 +180,7 @@
       <p class="panel__meta">${meta}</p>
       <div class="panel__lots">${lots.map(lotCard).join('')}</div>
       ${lots.some((l) => l.type === 'house' && !l.renov) ? '<p class="note panel__note">Ремонт под ключ для дома без ремонта&nbsp;— 2&nbsp;млн&nbsp;₽. Заезжаете в&nbsp;готовый дом.</p>' : ''}
+      ${lots.some((l) => l.type === 'duplex' && !l.renov) ? '<p class="note panel__note">Для половины дуплекса без ремонта сделаем ремонт по&nbsp;запросу, стоимость рассчитаем индивидуально.</p>' : ''}
       <div class="panel__photo"><img src="assets/img/${photo}" alt="" loading="lazy"></div>
       <div class="panel__actions">
         <button class="btn btn--light" data-open-callback data-lot="Участок ${id}">Узнать подробнее</button>
@@ -198,7 +201,8 @@
         : l.type === 'duplex'
           ? `½ земли под дуплексом<span class="muted">участок ${l.plotArea} м²</span>`
           : `земля под домом<span class="muted">участок ${l.plotArea} м²</span>`;
-      const alt = l.type === 'house' && !l.renov ? `<small>с ремонтом ${mln(l.price + RENO)}</small>` : '';
+      const alt = l.type === 'house' && !l.renov ? `<small>с ремонтом ${mln(l.price + RENO)}</small>`
+        : l.type === 'duplex' && !l.renov ? '<small>ремонт по запросу</small>' : '';
       const btn = l.plot
         ? `<button data-goto="${l.plot}">На плане</button>`
         : `<button data-open-callback data-lot="Участок ${l.plotArea} м² (${l.plotCad})">Узнать</button>`;
@@ -372,7 +376,7 @@
 
   /* ---------- появление при скролле ---------- */
   function reveal() {
-    const items = $$('.section__head, .fact, .pill, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
+    const items = $$('.section__head, .fact, .pill, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
     items.forEach((i) => i.classList.add('reveal'));
     if (!('IntersectionObserver' in window)) { items.forEach((i) => i.classList.add('is-in')); return; }
     const io = new IntersectionObserver((ents) => ents.forEach((en) => {

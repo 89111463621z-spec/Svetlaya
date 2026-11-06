@@ -433,3 +433,15 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 }
 
 .plan__hint { display: none; font-size: 13px; color: var(--muted); margin: 4px 0 10px; }
+
+/* ---------- управление арендой ---------- */
+.manage { margin-top: 12px; padding: clamp(24px, 3.5vw, 48px); display: grid; grid-template-columns: 1fr 1fr; gap: 24px 48px; align-items: start;
+  background: linear-gradient(135deg, #1c3b33 0%, var(--surface) 60%); }
+.manage h3 { font-size: clamp(26px, 2.6vw, 38px); font-weight: 300; max-width: 18ch; }
+.manage__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.manage__list li { padding: 20px 22px; border-radius: var(--radius-sm); background: rgba(255,255,255,.03); border: 1px solid var(--line); }
+.manage__list b { display: block; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+.manage__list span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+.manage__note { grid-column: 1 / -1; }
+@media (max-width: 860px) { .manage { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .manage__list { grid-template-columns: 1fr; } }
