@@ -18,6 +18,9 @@ window.SITE = {
   phone: '+7 921 413-38-72',
   phoneHref: 'tel:+79214133872',
   renovationPrice: 2000000,
+  // Ключ API Яндекс Карт (developer.tech.yandex.ru). Без ключа карта тоже работает,
+  // но Яндекс рекомендует указать свой ключ.
+  yandexMapsKey: '',
 };
 
 const Q = '47:03:1001001:';

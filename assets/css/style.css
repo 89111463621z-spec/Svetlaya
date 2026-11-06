@@ -544,3 +544,77 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 #map .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.82) contrast(.92) saturate(.45); }
 .renovation__photos { grid-template-rows: repeat(2, minmax(0, 1fr)); }
 .renovation__photos img { min-height: 0; }
+
+/* ===== Редизайн по референсу «Лесное ожерелье» ===== */
+h1, h2 { text-transform: uppercase; letter-spacing: -.005em; font-weight: 400; }
+
+/* первый экран: одно фото, всё по центру, цифры внизу */
+.hero { display: block; height: min(100svh - 24px, 900px); min-height: 600px; padding-top: 12px; }
+.hero__main { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.hero__main::after { background: linear-gradient(180deg, rgba(8,16,13,.55) 0%, rgba(8,16,13,.25) 40%, rgba(8,16,13,.45) 70%, rgba(8,16,13,.85) 100%); }
+.hero__content { display: flex; flex-direction: column; align-items: center; padding: 96px 24px 0; }
+.hero__content .tag { align-self: center; }
+.hero__title { font-size: clamp(48px, 8.5vw, 128px); line-height: .95; letter-spacing: -.02em; margin-top: 18px; }
+.hero__lead { margin: 20px auto 0; max-width: 40ch; font-size: clamp(16px, 1.5vw, 20px); }
+.hero__actions { justify-content: center; margin-top: 28px; }
+.hero__stats {
+  position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 22px clamp(16px, 4vw, 56px) 26px;
+}
+.hero__stats > div { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 0 12px; }
+.hero__stats > div + div { border-left: 1px solid rgba(236,232,222,.22); }
+.hero__stats b { font-weight: 400; font-size: clamp(18px, 1.9vw, 26px); }
+.hero__stats span { font-size: 12.5px; color: rgba(236,232,222,.75); }
+.hero__stats b span { font-size: inherit; color: inherit; }
+
+/* вступление: круглые фото + текст по центру */
+.intro { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.intro__circles { display: flex; justify-content: center; margin-bottom: 28px; }
+.intro__circles img {
+  width: clamp(72px, 9vw, 120px); height: clamp(72px, 9vw, 120px); border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--bg); margin-left: calc(clamp(72px, 9vw, 120px) * -0.18); box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.intro__circles img:first-child { margin-left: 0; }
+.intro h2 { max-width: none; }
+.intro__text { color: var(--muted); max-width: 60ch; margin: 18px auto 28px; font-size: clamp(15px, 1.25vw, 17px); }
+
+/* преимущества: плитка */
+.section__title-center { text-align: center; margin: 0 auto clamp(24px, 3vw, 36px); max-width: none; }
+.bento { display: grid; grid-template-columns: 1.15fr 1fr 1fr; grid-template-rows: repeat(2, clamp(200px, 22vw, 290px)); gap: 12px; }
+.bento__item { display: flex; flex-direction: column; justify-content: flex-end; }
+.bento__item--tall { grid-row: span 2; }
+.bento__item::after { background: linear-gradient(180deg, rgba(8,16,13,0) 35%, rgba(8,16,13,.85) 100%); }
+.bento__text { padding: clamp(16px, 2vw, 24px); }
+.bento__text h3 { text-transform: uppercase; font-size: clamp(18px, 1.7vw, 24px); font-weight: 500; letter-spacing: .01em; }
+.bento__text p { margin-top: 6px; font-size: 14px; line-height: 1.45; color: rgba(236,232,222,.85); max-width: 34ch; }
+.dots { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.dots li { padding: 9px 16px 9px 30px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 13.5px; position: relative; }
+.dots li::before { content: ''; position: absolute; left: 14px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--accent); }
+
+/* карта Яндекса */
+.location__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.routes span { display: flex; align-items: center; gap: 12px; }
+.rt-num { display: inline-grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%; font-style: normal; font-size: 12px; font-weight: 600; color: #fff; background: #1e98ff; }
+.rt-num--lake { background: #82cdff; color: #0b1512; }
+.rt-num--none { background: transparent; border: 1px solid var(--line-strong); }
+.routes-wrap .btn { justify-self: start; }
+
+@media (max-width: 860px) {
+  .hero { height: auto; min-height: 0; }
+  .hero__main { min-height: calc(100svh - 24px); }
+  .hero__stats { grid-template-columns: 1fr 1fr; row-gap: 14px; }
+  .hero__stats > div:nth-child(3) { border-left: 0; }
+  .bento { grid-template-columns: 1fr 1fr; grid-template-rows: none; grid-auto-rows: 220px; }
+  .bento__item--tall { grid-column: 1 / -1; grid-row: auto; }
+}
+@media (max-width: 520px) {
+  .bento { grid-template-columns: 1fr; }
+  .hero__actions .btn { width: auto; }
+}
+
+#ymap { position: absolute; inset: 0; }
+.routes li[role="button"] { cursor: pointer; transition: border-color .2s, background .2s; }
+.routes li[role="button"]:hover { border-color: var(--line-strong); }
+.rt-dot { display: inline-block; flex: none; width: 12px; height: 12px; border-radius: 50%; background: #1e98ff; box-shadow: 0 0 0 3px rgba(30,152,255,.2); }
+.rt-dot--lake { background: #82cdff; box-shadow: 0 0 0 3px rgba(130,205,255,.2); }
+.rt-dot--none { background: transparent; box-shadow: none; border: 1px solid var(--line-strong); }

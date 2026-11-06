@@ -11,7 +11,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -28,11 +27,11 @@
     <span class="logo__text">Светлая<br>Дача</span>
   </a>
   <nav class="nav" aria-label="Разделы">
-    <a href="#location">Расположение</a>
-    <a href="#advantages">Преимущества</a>
+    <a href="#about">О посёлке</a>
     <a href="#plan">План и цены</a>
     <a href="#renovation">Ремонт</a>
     <a href="#income">Доход</a>
+    <a href="#location">Расположение</a>
     <a href="#contacts">Контакты</a>
   </nav>
   <div class="header__contact">
@@ -48,88 +47,69 @@
 <section class="hero">
   <div class="hero__main card-photo">
     <img src="assets/img/street-winter.jpg" alt="Заснеженная улица посёлка «Светлая Дача» с деревянными домами" fetchpriority="high">
-    <p class="tag hero__tag">Приозерский район · Карельский перешеек</p>
     <div class="hero__content">
+      <p class="tag">Коттеджный посёлок · Приозерский район</p>
       <h1 class="hero__title">Светлая Дача</h1>
-      <p class="hero__lead">Готовые дома и&nbsp;участки в&nbsp;сосновом лесу, в&nbsp;5–8&nbsp;минутах от&nbsp;горнолыжных склонов Коробицыно. Газ в&nbsp;посёлке.</p>
-      <div class="hero__prices">
-        <div><span>Дома</span><strong>от <b data-min="houses">3</b> млн&nbsp;₽</strong></div>
-        <div><span>Участки</span><strong>от <b data-min="land">1,5</b> млн&nbsp;₽</strong></div>
-      </div>
+      <p class="hero__lead">Готовые дома и&nbsp;участки в&nbsp;сосновом лесу, в&nbsp;5–8&nbsp;минутах от&nbsp;горнолыжных склонов Коробицыно</p>
       <div class="hero__actions">
         <a class="btn btn--light" href="#plan">Выбрать дом на&nbsp;плане</a>
-        <button class="btn btn--ghost" data-open-callback>Получить консультацию</button>
+        <button class="btn btn--ghost" data-open-callback>Записаться на&nbsp;просмотр</button>
       </div>
     </div>
-  </div>
-  <a class="hero__side card-photo" href="#for-life">
-    <img src="assets/img/living-sm.jpg" alt="Гостиная с ремонтом: терракотовый диван, белая вагонка">
-    <span class="hero__side-label">
-      <svg viewBox="0 0 48 32" aria-hidden="true"><path d="M4 28 L24 8 L44 28 M10 28 V20 M38 28 V20 M2 30 H46" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-      Для жизни
-    </span>
-  </a>
-  <a class="hero__side card-photo" href="#income">
-    <img src="assets/img/evening-sm.jpg" alt="Вечерний посёлок с гирляндой">
-    <span class="hero__side-label">
-      <svg viewBox="0 0 48 32" aria-hidden="true"><path d="M4 28 L16 16 L26 22 L44 6 M36 6 H44 V14 M2 30 H46" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-      Для дохода
-    </span>
-  </a>
-</section>
-
-<!-- ============ ЦИФРЫ ============ -->
-<section class="facts" aria-label="Коротко о посёлке">
-  <div class="fact"><b>3 склона</b><span>«Золотая Долина», «Снежный» и&nbsp;«Красное Озеро» в&nbsp;5–8&nbsp;минутах на&nbsp;машине</span></div>
-  <div class="fact"><b>Газ</b><span>в&nbsp;посёлке</span></div>
-  <div class="fact"><b data-count="lots">28</b><span>лотов в&nbsp;продаже: дома, половины дуплексов, участки</span></div>
-  <div class="fact"><b>+2&nbsp;млн</b><span>и&nbsp;дом без ремонта становится домом под ключ</span></div>
-</section>
-
-<!-- ============ РАСПОЛОЖЕНИЕ ============ -->
-<section class="section location" id="location">
-  <div class="section__head">
-    <p class="eyebrow">Расположение</p>
-    <h2>Лес, озёра и&nbsp;склоны&nbsp;— в&nbsp;одной точке</h2>
-    <p class="section__lead">Коттеджный посёлок Светлое Дача, 3,5&nbsp;км от&nbsp;пос. Мичуринское, Приозерский район Ленинградской области. Вокруг сосновый лес Карельского перешейка, рядом горнолыжные курорты Коробицыно.</p>
-  </div>
-  <div class="location__grid">
-    <div class="location__map card">
-      <div id="map" role="img" aria-label="Карта: посёлок «Светлая Дача» и горнолыжные курорты рядом"></div>
-      <a class="map__open" id="mapOpen" target="_blank" rel="noopener">Маршрут в&nbsp;Яндекс Картах</a>
+    <div class="hero__stats">
+      <div><b>5–8 мин</b><span>до трёх склонов</span></div>
+      <div><b data-count="lots">27</b><span>лотов в&nbsp;продаже</span></div>
+      <div><b>от <span data-min="houses">3</span> млн&nbsp;₽</b><span>дома</span></div>
+      <div><b>от <span data-min="land">1,5</span> млн&nbsp;₽</b><span>участки</span></div>
     </div>
-    <div class="routes-wrap"><ul class="routes" id="routes"></ul><p class="note">Время на&nbsp;машине без пробок, по&nbsp;данным OpenStreetMap.</p></div>
   </div>
+</section>
+
+<!-- ============ ВСТУПЛЕНИЕ ============ -->
+<section class="section intro" id="about">
+  <div class="intro__circles" aria-hidden="true">
+    <img src="assets/img/house-side-sm.jpg" alt="" loading="lazy">
+    <img src="assets/img/yard-sm.jpg" alt="" loading="lazy">
+    <img src="assets/img/living-sm.jpg" alt="" loading="lazy">
+    <img src="assets/img/evening-sm.jpg" alt="" loading="lazy">
+    <img src="assets/img/house-back-sm.jpg" alt="" loading="lazy">
+  </div>
+  <h2>Посёлок в&nbsp;сосновом лесу</h2>
+  <p class="intro__text">«Светлая Дача»&nbsp;— небольшой посёлок на&nbsp;Карельском перешейке. Дома уже построены: в&nbsp;них можно жить или сдавать их&nbsp;— в&nbsp;посёлке налажена посуточная аренда. Рядом три горнолыжных курорта и&nbsp;Мичуринское озеро.</p>
+  <button class="btn btn--light" data-open-callback>Записаться на&nbsp;просмотр</button>
 </section>
 
 <!-- ============ ПРЕИМУЩЕСТВА ============ -->
 <section class="section" id="advantages">
-  <div class="section__head">
-    <p class="eyebrow">Преимущества</p>
-    <h2>Почему здесь хорошо жить и&nbsp;выгодно владеть</h2>
-  </div>
-  <div class="pills">
-    <article class="pill">
-      <div class="pill__img"><img src="assets/img/kitchen-sm.jpg" alt="Кухня с газовой плитой" loading="lazy"><span class="pill__word">Газ</span></div>
-      <p>Газ в&nbsp;посёлке.</p>
+  <h2 class="section__title-center">Здесь хорошо жить</h2>
+  <div class="bento">
+    <article class="bento__item bento__item--tall card-photo">
+      <img src="assets/img/house-side.jpg" alt="Дом среди сосен" loading="lazy">
+      <div class="bento__text"><h3>Готовые дома</h3><p>65–72&nbsp;м², кухня-гостиная и&nbsp;2&nbsp;спальни. В&nbsp;дом с&nbsp;ремонтом можно заехать сразу</p></div>
     </article>
-    <article class="pill">
-      <div class="pill__img"><img src="assets/img/street-winter-sm.jpg" alt="Зимний посёлок" loading="lazy"><span class="pill__word">Склоны</span></div>
-      <p>Три горнолыжных курорта рядом: «Золотая Долина», «Снежный» и&nbsp;«Красное Озеро»&nbsp;— 5–8&nbsp;минут на&nbsp;машине.</p>
+    <article class="bento__item card-photo">
+      <img src="assets/img/street-winter-sm.jpg" alt="Зимняя улица посёлка" loading="lazy">
+      <div class="bento__text"><h3>Три склона</h3><p>«Золотая Долина», «Снежный» и&nbsp;«Красное Озеро»&nbsp;— 5–8&nbsp;минут на&nbsp;машине</p></div>
     </article>
-    <article class="pill">
-      <div class="pill__img"><img src="assets/img/house-side-sm.jpg" alt="Дом среди сосен" loading="lazy"><span class="pill__word">Озеро</span></div>
-      <p>Сосновый лес вокруг и&nbsp;Мичуринское озеро в&nbsp;6&nbsp;минутах. Летом&nbsp;— купание и&nbsp;рыбалка, осенью&nbsp;— грибы.</p>
+    <article class="bento__item card-photo">
+      <img src="assets/img/kitchen-sm.jpg" alt="Кухня в доме" loading="lazy">
+      <div class="bento__text"><h3>Газ в&nbsp;посёлке</h3></div>
     </article>
-    <article class="pill">
-      <div class="pill__img"><img src="assets/img/bedroom-sm.jpg" alt="Спальня с ремонтом" loading="lazy"><span class="pill__word">Ремонт</span></div>
-      <p>Дома уже построены и&nbsp;готовы к&nbsp;жизни. В&nbsp;дом с&nbsp;ремонтом можно заехать сразу, а&nbsp;дом без ремонта доведём под ключ за&nbsp;2&nbsp;млн&nbsp;₽.</p>
+    <article class="bento__item card-photo">
+      <img src="assets/img/door-sm.jpg" alt="Крыльцо дома зимой" loading="lazy">
+      <div class="bento__text"><h3>Лес и&nbsp;озеро</h3><p>Сосны вокруг, Мичуринское озеро&nbsp;— в&nbsp;10&nbsp;минутах</p></div>
     </article>
-    <article class="pill">
-      <div class="pill__img"><img src="assets/img/evening-sm.jpg" alt="Вечерний посёлок" loading="lazy"><span class="pill__word">Доход</span></div>
-      <p>В&nbsp;посёлке уже налажена посуточная аренда. Ваш дом сдаёт управляющая команда, а&nbsp;вы получаете доход.</p>
+    <article class="bento__item card-photo">
+      <img src="assets/img/evening-sm.jpg" alt="Вечер в посёлке" loading="lazy">
+      <div class="bento__text"><h3>Доход от&nbsp;аренды</h3><p>Посуточную сдачу берёт на&nbsp;себя управляющая команда</p></div>
     </article>
   </div>
+  <ul class="dots">
+    <li>Газ в&nbsp;посёлке</li>
+    <li>3 склона за&nbsp;5–8&nbsp;минут</li>
+    <li>Ремонт под ключ за&nbsp;2&nbsp;млн&nbsp;₽</li>
+    <li>Управление арендой</li>
+  </ul>
 </section>
 
 <!-- ============ ДВА СЦЕНАРИЯ ============ -->
@@ -309,6 +289,22 @@
   </div>
 </section>
 
+<!-- ============ РАСПОЛОЖЕНИЕ ============ -->
+<section class="section location" id="location">
+  <div class="section__head">
+    <p class="eyebrow">Расположение</p>
+    <h2>Лес, озёра и&nbsp;склоны&nbsp;— в&nbsp;одной точке</h2>
+    <p class="section__lead">Коттеджный посёлок Светлое Дача, 3,5&nbsp;км от&nbsp;пос. Мичуринское, Приозерский район Ленинградской области. Вокруг сосновый лес Карельского перешейка, рядом горнолыжные курорты Коробицыно.</p>
+  </div>
+  <div class="location__grid">
+    <div class="location__map card">
+      <div id="ymap" role="region" aria-label="Карта: посёлок «Светлая Дача» и горнолыжные курорты рядом"></div>
+    </div>
+    <div class="routes-wrap"><ul class="routes" id="routes"></ul><p class="note">Время на&nbsp;машине без пробок. Нажмите на&nbsp;место в&nbsp;списке&nbsp;— карта покажет его.</p>
+      <a class="btn btn--light" id="mapOpen" target="_blank" rel="noopener">Построить маршрут</a></div>
+  </div>
+</section>
+
 <!-- ============ ГАЛЕРЕЯ ============ -->
 <section class="section gallery" id="gallery">
   <div class="section__head">
@@ -363,7 +359,6 @@
 
 <div class="lightbox" id="lightbox" hidden><img alt=""><button aria-label="Закрыть">×</button></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="assets/js/plan-geo.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>

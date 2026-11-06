@@ -253,32 +253,60 @@
      ====================================================== */
   function drawLocation() {
     const L = window.LOCATION || {};
-    const routes = L.routes || [];
-    $('#routes').innerHTML = routes.map((r) => `
-      <li class="${r.key ? 'is-key' : ''}"><span>${r.name}</span><b>${r.time}<small>${r.unit || 'мин'}</small></b></li>`).join('');
+    const pts = L.points || [];
+    const box = $('#ymap');
     $('#mapOpen').href = `https://yandex.ru/maps/?rtext=~${L.lat}%2C${L.lon}&rtt=auto`;
 
-    const box = $('#map');
-    if (!window.L || !box) return;
-    const map = window.L.map(box, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
-    window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
-    const icon = (cls, label) => window.L.divIcon({
-      className: 'mk ' + cls, iconSize: null,
-      html: `<span class="mk__dot"></span><span class="mk__label">${label}</span>`,
-    });
-    const home = [L.lat, L.lon];
-    const pts = (L.points || []).map((pt) => [pt.lat, pt.lon]);
-    (L.points || []).forEach((pt) => {
-      window.L.polyline([home, [pt.lat, pt.lon]], { color: '#e8a35b', weight: 1, opacity: .45, dashArray: '4 6' }).addTo(map);
-    });
-    (L.points || []).forEach((pt) => {
-      window.L.marker([pt.lat, pt.lon], { icon: icon('mk--' + pt.kind, pt.name), keyboard: false }).addTo(map);
-    });
-    window.L.marker(home, { icon: icon('mk--home', 'Светлая Дача'), zIndexOffset: 1000 }).addTo(map);
-    map.fitBounds(window.L.latLngBounds([home, ...pts]), { paddingTopLeft: [40, 40], paddingBottomRight: [170, 70] });
+    // список мест; клик по месту показывает его на карте
+    const routes = L.routes || [];
+    const findPt = (name) => pts.findIndex((pt) => name.includes(pt.name.replace(/[«»]/g, '').split(' ')[0]));
+    $('#routes').innerHTML = routes.map((r, i) => {
+      const idx = findPt(r.name);
+      const dot = idx >= 0 ? `<i class="rt-dot rt-dot--${pts[idx].kind}"></i>` : '<i class="rt-dot rt-dot--none"></i>';
+      return `<li class="${r.key ? 'is-key' : ''}" data-pt="${idx}" ${idx >= 0 ? 'tabindex="0" role="button"' : ''}><span>${dot}${r.name}</span><b>${r.time}<small>${r.unit || 'мин'}</small></b></li>`;
+    }).join('');
+
+    // запасной вариант — простой виджет Яндекса
+    const fallback = () => {
+      if (box.querySelector('iframe')) return;
+      box.innerHTML = `<iframe title="Карта" style="position:absolute;inset:0;width:100%;height:100%;border:0" src="https://yandex.ru/map-widget/v1/?ll=${L.lon}%2C${L.lat}&z=12&pt=${L.lon}%2C${L.lat}%2Cpm2orgl"></iframe>`;
+    };
+
+    let started = false;
+    const start = () => {
+      if (started) return; started = true;
+      const key = window.SITE.yandexMapsKey ? `&apikey=${window.SITE.yandexMapsKey}` : '';
+      const s = document.createElement('script');
+      s.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU${key}`;
+      s.onerror = fallback;
+      s.onload = () => window.ymaps.ready(() => {
+        const map = new window.ymaps.Map(box, { center: [L.lat, L.lon], zoom: 12, controls: ['zoomControl', 'fullscreenControl'] }, { suppressMapOpenBlock: false });
+        map.behaviors.disable('scrollZoom');
+        const preset = { home: 'islands#orangeDotIconWithCaption', ski: 'islands#blueDotIconWithCaption', lake: 'islands#lightBlueDotIconWithCaption' };
+        const home = new window.ymaps.Placemark([L.lat, L.lon], { iconCaption: 'Светлая Дача', balloonContent: 'Коттеджный посёлок «Светлая Дача»' }, { preset: preset.home, zIndex: 1000 });
+        map.geoObjects.add(home);
+        const marks = pts.map((pt) => {
+          const m = new window.ymaps.Placemark([pt.lat, pt.lon], { iconCaption: pt.name.replace(/[«»]/g, ''), balloonContent: pt.name }, { preset: preset[pt.kind] || preset.ski });
+          map.geoObjects.add(m);
+          return m;
+        });
+        map.setBounds(map.geoObjects.getBounds(), { checkZoomRange: true, zoomMargin: [50, 140, 50, 50] });
+        $$('#routes li[data-pt]').forEach((li) => {
+          const i = +li.dataset.pt;
+          if (i < 0) return;
+          const go = () => { map.setCenter([pts[i].lat, pts[i].lon], 14, { duration: 400 }); marks[i].balloon.open(); };
+          li.addEventListener('click', go);
+          li.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
+        });
+      });
+      document.head.appendChild(s);
+      setTimeout(() => { if (!window.ymaps) fallback(); }, 8000);
+    };
+    // грузим карту, когда до неё доскроллили
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) { start(); io.disconnect(); } }, { rootMargin: '400px' });
+      io.observe(box);
+    } else start();
   }
 
   /* ======================================================
@@ -367,7 +395,7 @@
 
   /* ---------- появление при скролле ---------- */
   function reveal() {
-    const items = $$('.section__head, .fact, .pill, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
+    const items = $$('.section__head, .intro > *, .bento__item, .dots, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
     items.forEach((i) => i.classList.add('reveal'));
     if (!('IntersectionObserver' in window)) { items.forEach((i) => i.classList.add('is-in')); return; }
     const io = new IntersectionObserver((ents) => ents.forEach((en) => {
