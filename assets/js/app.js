@@ -151,7 +151,7 @@
     const badge = l.type === 'land' ? '<span class="badge">Без дома</span>'
       : l.renov ? '<span class="badge badge--renov">С ремонтом</span>'
       : '<span class="badge">Без ремонта</span>';
-    const alt = l.type !== 'land' && !l.renov
+    const alt = l.type === 'house' && !l.renov
       ? `<span class="lot__alt">С ремонтом под ключ: ${mln(l.price + RENO)}</span>` : '';
     const cad = l.cad ? `<span class="lot__cad">Дом: кад. № ${l.cad}${l.type === 'duplex' ? ' (½ доли)' : ''}</span>` : '';
     return `<div class="lot">
@@ -177,7 +177,7 @@
       <div class="panel__title"><h3>Участок ${id}</h3><span class="badge">${built ? 'С домами' : 'Свободный'}</span></div>
       <p class="panel__meta">${meta}</p>
       <div class="panel__lots">${lots.map(lotCard).join('')}</div>
-      ${built && lots.some((l) => !l.renov) ? '<p class="note panel__note">Ремонт под ключ для домов без ремонта&nbsp;— 2&nbsp;млн&nbsp;₽. Заезжаете в&nbsp;готовый дом.</p>' : ''}
+      ${lots.some((l) => l.type === 'house' && !l.renov) ? '<p class="note panel__note">Ремонт под ключ для дома без ремонта&nbsp;— 2&nbsp;млн&nbsp;₽. Заезжаете в&nbsp;готовый дом.</p>' : ''}
       <div class="panel__photo"><img src="assets/img/${photo}" alt="" loading="lazy"></div>
       <div class="panel__actions">
         <button class="btn btn--light" data-open-callback data-lot="Участок ${id}">Узнать подробнее</button>
@@ -196,7 +196,7 @@
       const land = l.type === 'land'
         ? `${sot(l.plotArea)}<span class="muted">${l.plotArea} м²</span>`
         : `общий ${l.plotArea} м²<span class="muted">доля в участке</span>`;
-      const alt = l.type !== 'land' && !l.renov ? `<small>с ремонтом ${mln(l.price + RENO)}</small>` : '';
+      const alt = l.type === 'house' && !l.renov ? `<small>с ремонтом ${mln(l.price + RENO)}</small>` : '';
       const btn = l.plot
         ? `<button data-goto="${l.plot}">На плане</button>`
         : `<button data-open-callback data-lot="Участок ${l.plotArea} м² (${l.plotCad})">Узнать</button>`;

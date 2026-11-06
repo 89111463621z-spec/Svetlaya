@@ -140,6 +140,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .location__grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; }
 .location__map { overflow: hidden; min-height: 520px; position: relative; }
 .location__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(.35) contrast(1.05); }
+.routes-wrap { display: grid; gap: 12px; align-content: start; }
 .routes { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; align-content: start; }
 .routes li {
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
@@ -248,7 +249,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .lot__cad { font-size: 12px; color: var(--muted); }
 .badge { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); white-space: nowrap; }
 .badge--renov { border-color: rgba(232,163,91,.5); color: var(--accent); }
-.panel__photo { margin-top: 18px; border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 16 / 10; }
+.panel__photo { flex-shrink: 0; margin-top: 18px; border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 16 / 10; }
 .panel__photo img { width: 100%; height: 100%; object-fit: cover; }
 .panel__note { margin-top: 16px; }
 .panel__actions { display: grid; gap: 8px; margin-top: 20px; }

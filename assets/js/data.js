@@ -96,3 +96,30 @@ window.buildLots = function () {
   }));
   return lots;
 };
+
+/* Точка посёлка: адрес «КП Светлое Дача», 3,5 км от пос. Мичуринское
+   (координаты из карточки объекта на mirturbaz.ru — подтвердить по кадастру).
+   Время в пути — расчёт по данным OpenStreetMap (OSRM), без учёта пробок. */
+window.LOCATION = {
+  lat: 60.55544, lon: 29.810204, zoom: 11,
+  routes: [
+    { name: 'Горнолыжный курорт «Снежный»', time: '8', key: true },
+    { name: 'Горнолыжный курорт «Красное Озеро»', time: '11', key: true },
+    { name: 'Курорт «Золотая Долина»', time: '≈20' },
+    { name: 'Мичуринское озеро', time: '6' },
+    { name: 'Ж/д станция Сосново', time: '35' },
+    { name: 'Санкт-Петербург, Финляндский вокзал', time: '1,5', unit: 'ч' },
+  ],
+};
+
+/* Рынок посуточной аренды (ноябрь 2026, открытые объявления) */
+window.MARKET = {
+  defaultRate: 7000,   // медиана за ночь в будни, дом на 4–6 человек
+  defaultLoad: 35,     // предположение: данных о загрузке частных домов нет
+  cards: [
+    { value: '≈ 7 000 ₽', label: 'медиана за ночь в будни: домики на 4–6 гостей рядом с посёлком, 15 объявлений' },
+    { value: '≈ 8 800 ₽', label: 'медиана за ночь в выходные; летом и в праздники цены выше в 1,5–2 раза' },
+    { value: '13 000 ₽', label: 'средняя посуточная цена загородного дома в Ленобласти, +5% за год (Циан, 2026)' },
+  ],
+  sources: '<a href="https://www.krasnoeozero.ru/" target="_blank" rel="noopener">krasnoeozero.ru</a>, <a href="https://mirturbaz.ru/russia/leningradskaya/michurinskoe1/kottedzh" target="_blank" rel="noopener">mirturbaz.ru</a>, <a href="https://101hotels.com/main/cities/corobicyno/cottages" target="_blank" rel="noopener">101hotels.com</a>, <a href="https://www.cnews.ru/news/line/2026-07-02_leningradskaya_oblast_voshla" target="_blank" rel="noopener">CNews / Циан</a>. Загрузка 35% по умолчанию — наше допущение: открытой статистики загрузки частных домов в районе нет.',
+};
