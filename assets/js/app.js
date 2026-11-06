@@ -184,7 +184,7 @@
       <div class="panel__photo"><img src="assets/img/${photo}" alt="" loading="lazy"></div>
       <div class="panel__actions">
         <button class="btn btn--light" data-open-callback data-lot="Участок ${id}">Узнать подробнее</button>
-        <a class="btn btn--ghost" href="${window.SITE.whatsapp}?text=${encodeURIComponent(`Здравствуйте! Интересует участок ${id} в «Светлой Даче».`)}" target="_blank" rel="noopener">Спросить в WhatsApp</a>
+        <a class="btn btn--ghost" href="${window.SITE.phoneHref}">Позвонить: ${window.SITE.phone}</a>
       </div>`;
     if (window.matchMedia('(max-width: 1200px)').matches) {
       panel.scrollIntoView({ behavior: 'smooth', block: 'start' });

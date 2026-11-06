@@ -17,7 +17,6 @@ window.SITE = {
   name: 'Светлая Дача',
   phone: '+7 921 413-38-72',
   phoneHref: 'tel:+79214133872',
-  whatsapp: 'https://wa.me/79214133872',
   leadEndpoint: 'api/lead.php', // заявки → Битрикс24 (см. api/README.md)
   renovationPrice: 2000000,
 };
