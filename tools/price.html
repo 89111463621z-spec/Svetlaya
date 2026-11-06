@@ -47,7 +47,7 @@
       </svg>
       <div><b>Светлая Дача</b><span>Приозерский район, КП Светлое Дача · 3,5 км от пос. Мичуринское</span></div>
     </div>
-    <div class="meta"><strong>Прайс-лист</strong><span id="date"></span></div>
+    <div class="meta"><strong>Прайс-лист</strong><span>актуальные цены и наличие — в отделе продаж</span></div>
   </header>
 
   <h2>Дома <small>цена включает землю под домом</small></h2>
@@ -86,8 +86,6 @@
     `<tr><td class="num">${num(l)}</td><td>½ дуплекса ${tag(l)}</td><td class="note">${!l.renov ? 'ремонт — по запросу' : ''}</td><td class="price">${mln(l.price)}</td></tr>`).join('');
   document.getElementById('land').innerHTML = lots.filter((l) => l.type === 'land').map((l) =>
     `<tr><td class="num">${num(l)}</td><td>${sot(l.plotArea)} · ${l.plotArea} м²</td><td>${Math.round(l.price / l.plotArea * 100).toLocaleString('ru-RU')} ₽</td><td class="price">${mln(l.price)}</td></tr>`).join('');
-  const d = new Date();
-  document.getElementById('date').textContent = 'актуально на ' + d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 </script>
 </body>
 </html>

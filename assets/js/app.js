@@ -282,7 +282,7 @@
       s.onload = () => window.ymaps.ready(() => {
         const map = new window.ymaps.Map(box, { center: [L.lat, L.lon], zoom: 12, controls: ['zoomControl', 'fullscreenControl'] }, { suppressMapOpenBlock: false });
         map.behaviors.disable('scrollZoom');
-        const preset = { home: 'islands#orangeDotIconWithCaption', ski: 'islands#blueDotIconWithCaption', lake: 'islands#lightBlueDotIconWithCaption' };
+        const preset = { home: 'islands#orangeDotIconWithCaption', ski: 'islands#blueDotIconWithCaption', lake: 'islands#lightBlueDotIconWithCaption', rail: 'islands#grayDotIconWithCaption' };
         const home = new window.ymaps.Placemark([L.lat, L.lon], { iconCaption: 'Светлая Дача', balloonContent: 'Коттеджный посёлок «Светлая Дача»' }, { preset: preset.home, zIndex: 1000 });
         map.geoObjects.add(home);
         const marks = pts.map((pt) => {
@@ -290,11 +290,12 @@
           map.geoObjects.add(m);
           return m;
         });
-        map.setBounds(map.geoObjects.getBounds(), { checkZoomRange: true, zoomMargin: [50, 140, 50, 50] });
+        const near = [[L.lat, L.lon], ...pts.filter((pt) => !pt.far).map((pt) => [pt.lat, pt.lon])];
+        map.setBounds(window.ymaps.util.bounds.fromPoints(near), { checkZoomRange: true, zoomMargin: [50, 140, 50, 50] });
         $$('#routes li[data-pt]').forEach((li) => {
           const i = +li.dataset.pt;
           if (i < 0) return;
-          const go = () => { map.setCenter([pts[i].lat, pts[i].lon], 14, { duration: 400 }); marks[i].balloon.open(); };
+          const go = () => { map.setCenter([pts[i].lat, pts[i].lon], pts[i].far ? 12 : 14, { duration: 400 }); marks[i].balloon.open(); };
           li.addEventListener('click', go);
           li.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
         });
@@ -352,7 +353,7 @@
     ['sauna', 'Интерьер', 'wide'], ['bath', 'Санузел', ''], ['stairs', 'Лестница на мансарду', ''],
     ['yard', 'Двор и детская площадка', 'wide'], ['attic-bedroom', 'Спальня в мансарде', ''], ['living-2', 'Гостиная', 'tall'],
     ['hall', 'Прихожая', 'tall'], ['shower', 'Душевая', ''], ['house-back', 'Дом зимой', ''],
-    ['kids', 'Детская', ''], ['desk', 'Рабочее место', ''], ['door', 'Крыльцо', 'wide'], ['sauna-3', 'Интерьер', ''],
+    ['kids', 'Детская', ''], ['desk', 'Рабочее место', ''], ['sauna-3', 'Интерьер', ''],
   ];
   function drawGallery() {
     $('#galleryGrid').innerHTML = GALLERY.map(([f, alt, cls]) =>

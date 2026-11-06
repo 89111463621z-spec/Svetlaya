@@ -546,7 +546,7 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .renovation__photos img { min-height: 0; }
 
 /* ===== Редизайн по референсу «Лесное ожерелье» ===== */
-.hero__title, .section__title-center { text-transform: uppercase; letter-spacing: -.005em; font-weight: 400; }
+.section__title-center { text-transform: none; letter-spacing: -.005em; font-weight: 400; }
 
 /* первый экран: одно фото, всё по центру, цифры внизу */
 .hero { display: block; height: min(100svh - 24px, 900px); min-height: 600px; padding-top: 12px; }
@@ -618,3 +618,18 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .rt-dot { display: inline-block; flex: none; width: 12px; height: 12px; border-radius: 50%; background: #1e98ff; box-shadow: 0 0 0 3px rgba(30,152,255,.2); }
 .rt-dot--lake { background: #82cdff; box-shadow: 0 0 0 3px rgba(130,205,255,.2); }
 .rt-dot--none { background: transparent; box-shadow: none; border: 1px solid var(--line-strong); }
+
+.nw { white-space: nowrap; }
+.rt-dot--rail { background: #8b9692; box-shadow: 0 0 0 3px rgba(139,150,146,.2); }
+.market__src { margin-bottom: 0; }
+.market { margin-bottom: 0; }
+.manage { margin-top: clamp(32px, 4vw, 48px); }
+/* карточки преимуществ без фото */
+.bento__item--plain {
+  position: relative; border-radius: var(--radius); background: linear-gradient(160deg, #1c3b33 0%, var(--surface) 70%);
+  border: 1px solid var(--line); padding: clamp(16px, 2vw, 24px); justify-content: space-between; overflow: hidden;
+}
+.bento__item--plain .bento__text { padding: 0; }
+.bento__icon { width: 54px; height: 40px; color: var(--accent); }
+.bento__big { position: absolute; right: clamp(16px, 2vw, 24px); top: clamp(10px, 1.6vw, 18px); font-weight: 300; font-size: clamp(34px, 3.6vw, 52px); letter-spacing: -.03em; color: var(--accent); line-height: 1; }
+.bento__big small { font-size: .38em; color: var(--muted); letter-spacing: 0; }
