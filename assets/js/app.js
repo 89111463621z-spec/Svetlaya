@@ -105,12 +105,12 @@
 
       // подписи
       const [cx, cy] = p.c;
-      const num = el('text', { x: cx, y: built ? cy - 2 : cy - 8, class: 'p-num' }, g);
+      const num = el('text', { x: cx, y: built ? cy - 2 : cy - 10, class: 'p-num' }, g);
       num.textContent = p.id;
       if (!built) {
         const sub = el('text', { x: cx, y: cy + 12, class: 'p-sub' }, g);
         sub.textContent = sot(data.area);
-        const pr = el('text', { x: cx, y: cy + 30, class: 'p-price' }, g);
+        const pr = el('text', { x: cx, y: cy + 32, class: 'p-price' }, g);
         pr.textContent = mln(data.price);
       }
 
@@ -185,7 +185,7 @@
         <button class="btn btn--light" data-open-callback data-lot="Участок ${id}">Узнать подробнее</button>
         <a class="btn btn--ghost" href="${window.SITE.phoneHref}">Позвонить: ${window.SITE.phone}</a>
       </div>`;
-    if (window.matchMedia('(max-width: 1200px)').matches) {
+    if (window.matchMedia('(max-width: 860px)').matches) {
       panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
