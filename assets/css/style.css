@@ -546,7 +546,7 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .renovation__photos img { min-height: 0; }
 
 /* ===== Редизайн по референсу «Лесное ожерелье» ===== */
-h1, h2 { text-transform: uppercase; letter-spacing: -.005em; font-weight: 400; }
+.hero__title, .section__title-center { text-transform: uppercase; letter-spacing: -.005em; font-weight: 400; }
 
 /* первый экран: одно фото, всё по центру, цифры внизу */
 .hero { display: block; height: min(100svh - 24px, 900px); min-height: 600px; padding-top: 12px; }

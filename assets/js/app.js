@@ -395,7 +395,7 @@
 
   /* ---------- появление при скролле ---------- */
   function reveal() {
-    const items = $$('.section__head, .intro > *, .bento__item, .dots, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
+    const items = $$('.section__head, .bento__item, .dots, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
     items.forEach((i) => i.classList.add('reveal'));
     if (!('IntersectionObserver' in window)) { items.forEach((i) => i.classList.add('is-in')); return; }
     const io = new IntersectionObserver((ents) => ents.forEach((en) => {

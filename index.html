@@ -27,11 +27,11 @@
     <span class="logo__text">Светлая<br>Дача</span>
   </a>
   <nav class="nav" aria-label="Разделы">
-    <a href="#about">О посёлке</a>
+    <a href="#location">Расположение</a>
+    <a href="#advantages">Преимущества</a>
     <a href="#plan">План и цены</a>
     <a href="#renovation">Ремонт</a>
     <a href="#income">Доход</a>
-    <a href="#location">Расположение</a>
     <a href="#contacts">Контакты</a>
   </nav>
   <div class="header__contact">
@@ -65,18 +65,20 @@
   </div>
 </section>
 
-<!-- ============ ВСТУПЛЕНИЕ ============ -->
-<section class="section intro" id="about">
-  <div class="intro__circles" aria-hidden="true">
-    <img src="assets/img/house-side-sm.jpg" alt="" loading="lazy">
-    <img src="assets/img/yard-sm.jpg" alt="" loading="lazy">
-    <img src="assets/img/living-sm.jpg" alt="" loading="lazy">
-    <img src="assets/img/evening-sm.jpg" alt="" loading="lazy">
-    <img src="assets/img/house-back-sm.jpg" alt="" loading="lazy">
+<!-- ============ РАСПОЛОЖЕНИЕ ============ -->
+<section class="section location" id="location">
+  <div class="section__head">
+    <p class="eyebrow">Расположение</p>
+    <h2>Лес, озёра и&nbsp;склоны&nbsp;— в&nbsp;одной точке</h2>
+    <p class="section__lead">Коттеджный посёлок Светлое Дача, 3,5&nbsp;км от&nbsp;пос. Мичуринское, Приозерский район Ленинградской области. Вокруг сосновый лес Карельского перешейка, рядом горнолыжные курорты Коробицыно.</p>
   </div>
-  <h2>Посёлок в&nbsp;сосновом лесу</h2>
-  <p class="intro__text">«Светлая Дача»&nbsp;— небольшой посёлок на&nbsp;Карельском перешейке. Дома уже построены: в&nbsp;них можно жить или сдавать их&nbsp;— в&nbsp;посёлке налажена посуточная аренда. Рядом три горнолыжных курорта и&nbsp;Мичуринское озеро.</p>
-  <button class="btn btn--light" data-open-callback>Записаться на&nbsp;просмотр</button>
+  <div class="location__grid">
+    <div class="location__map card">
+      <div id="ymap" role="region" aria-label="Карта: посёлок «Светлая Дача» и горнолыжные курорты рядом"></div>
+    </div>
+    <div class="routes-wrap"><ul class="routes" id="routes"></ul><p class="note">Время на&nbsp;машине без пробок. Нажмите на&nbsp;место в&nbsp;списке&nbsp;— карта покажет его.</p>
+      <a class="btn btn--light" id="mapOpen" target="_blank" rel="noopener">Построить маршрут</a></div>
+  </div>
 </section>
 
 <!-- ============ ПРЕИМУЩЕСТВА ============ -->
@@ -286,22 +288,6 @@
       <li><b>Территория</b><span>газоны, вывоз мусора, порядок в&nbsp;посёлке</span></li>
     </ul>
     <p class="note manage__note">Условия управления и&nbsp;распределения дохода&nbsp;— по&nbsp;запросу у&nbsp;отдела продаж.</p>
-  </div>
-</section>
-
-<!-- ============ РАСПОЛОЖЕНИЕ ============ -->
-<section class="section location" id="location">
-  <div class="section__head">
-    <p class="eyebrow">Расположение</p>
-    <h2>Лес, озёра и&nbsp;склоны&nbsp;— в&nbsp;одной точке</h2>
-    <p class="section__lead">Коттеджный посёлок Светлое Дача, 3,5&nbsp;км от&nbsp;пос. Мичуринское, Приозерский район Ленинградской области. Вокруг сосновый лес Карельского перешейка, рядом горнолыжные курорты Коробицыно.</p>
-  </div>
-  <div class="location__grid">
-    <div class="location__map card">
-      <div id="ymap" role="region" aria-label="Карта: посёлок «Светлая Дача» и горнолыжные курорты рядом"></div>
-    </div>
-    <div class="routes-wrap"><ul class="routes" id="routes"></ul><p class="note">Время на&nbsp;машине без пробок. Нажмите на&nbsp;место в&nbsp;списке&nbsp;— карта покажет его.</p>
-      <a class="btn btn--light" id="mapOpen" target="_blank" rel="noopener">Построить маршрут</a></div>
   </div>
 </section>
 
