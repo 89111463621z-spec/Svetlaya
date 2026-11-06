@@ -316,20 +316,13 @@
   <div class="cta__form card">
     <p class="eyebrow">Заявка</p>
     <h2>Подберём дом под&nbsp;вашу задачу</h2>
-    <p class="section__lead">Оставьте номер&nbsp;— перезвоним за&nbsp;15&nbsp;минут в&nbsp;рабочее время, расскажем про свободные дома и&nbsp;пришлём фото и&nbsp;планировки.</p>
-    <form class="form" id="leadForm" data-form-name="Заявка внизу страницы" novalidate>
-      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <input type="text" name="name" placeholder="Как к вам обращаться" autocomplete="name">
-      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>
-      <select name="goal" aria-label="Цель покупки">
-        <option value="">Для чего смотрите?</option>
-        <option>Для жизни</option>
-        <option>Для сдачи в аренду</option>
-        <option>Пока выбираю</option>
-      </select>
-      <button class="btn btn--light" type="submit">Жду звонка</button>
-      <label class="consent"><input type="checkbox" required checked> Согласен на&nbsp;обработку персональных данных</label>
-    </form>
+    <p class="section__lead">Оставьте номер, и&nbsp;мы перезвоним. Расскажем о&nbsp;свободных домах и&nbsp;участках, ценах и&nbsp;ремонте.</p>
+    <!-- Форма CRM Битрикс24: заявка сразу создаёт лид -->
+    <div class="b24-slot" id="b24Home">
+      <div class="b24-wrap" id="b24Wrap">
+        <script data-b24-form="inline/27/17lj6z" data-b24-form-telemetry-sign="v1:27:site.e34a4b780cd1a4b4940ec94da613bb24d6c4e192742e3d7cde31bfb93737c5a1" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b18984106/crm/form/loader_27.js');</script>
+      </div>
+    </div>
     <div class="cta__direct">
       <a class="btn btn--ghost" href="tel:+79214133872">Позвонить: +7 921 413-38-72</a>
     </div>
@@ -353,16 +346,9 @@
 <dialog class="modal" id="callback">
   <form method="dialog" class="modal__close"><button aria-label="Закрыть">×</button></form>
   <p class="eyebrow">Обратный звонок</p>
-  <h3 id="cbTitle">Перезвоним за&nbsp;15&nbsp;минут</h3>
-  <p class="section__lead" id="cbText">Оставьте номер&nbsp;— менеджер расскажет о&nbsp;свободных домах, ценах и&nbsp;ремонте.</p>
-  <form class="form" data-lead data-form-name="Обратный звонок" novalidate>
-    <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <input type="text" name="name" placeholder="Как к вам обращаться" autocomplete="name">
-    <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>
-    <input type="hidden" name="lot">
-    <button class="btn btn--light" type="submit">Жду звонка</button>
-    <label class="consent"><input type="checkbox" required checked> Согласен на&nbsp;обработку персональных данных</label>
-  </form>
+  <h3 id="cbTitle">Перезвоним вам</h3>
+  <p class="section__lead" id="cbText">Оставьте номер, и&nbsp;менеджер расскажет о&nbsp;свободных домах, ценах и&nbsp;ремонте.</p>
+  <div class="b24-slot" id="b24Modal"></div>
 </dialog>
 
 <div class="lightbox" id="lightbox" hidden><img alt=""><button aria-label="Закрыть">×</button></div>

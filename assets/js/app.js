@@ -315,84 +315,22 @@
   /* ======================================================
      ФОРМЫ И МОДАЛКА
      ====================================================== */
+  /* Форма заявки — CRM-форма Битрикс24 (одна на странице).
+     По кнопке «Заказать звонок» переносим её в окно, при закрытии — обратно. */
   const modal = $('#callback');
+  const b24Wrap = $('#b24Wrap');
+  const b24Home = $('#b24Home');
+  const b24Modal = $('#b24Modal');
   document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-open-callback]');
     if (!t) return;
     e.preventDefault();
     const lot = t.dataset.lot || '';
-    $('input[name=lot]', modal).value = lot;
-    $('#cbTitle').innerHTML = lot ? `${lot}: расскажем подробно` : 'Перезвоним за&nbsp;15&nbsp;минут';
+    $('#cbTitle').innerHTML = lot ? `${lot}: расскажем подробно` : 'Перезвоним вам';
+    b24Modal.appendChild(b24Wrap);
     modal.showModal();
   });
-
-  function maskPhone(input) {
-    input.addEventListener('input', () => {
-      let d = input.value.replace(/\D/g, '');
-      if (d.startsWith('8')) d = '7' + d.slice(1);
-      if (!d.startsWith('7')) d = '7' + d;
-      d = d.slice(0, 11);
-      const p = d.slice(1);
-      let out = '+7';
-      if (p.length) out += ' (' + p.slice(0, 3);
-      if (p.length >= 3) out += ') ' + p.slice(3, 6);
-      if (p.length >= 6) out += '-' + p.slice(6, 8);
-      if (p.length >= 8) out += '-' + p.slice(8, 10);
-      input.value = out;
-    });
-  }
-  $$('input[type=tel]').forEach(maskPhone);
-
-  /* ---------- UTM-метки рекламы: запоминаем на время визита ---------- */
-  const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-  (function saveUtm() {
-    const q = new URLSearchParams(location.search);
-    UTM_KEYS.forEach((k) => {
-      if (q.get(k)) { try { sessionStorage.setItem(k, q.get(k)); } catch (e) { /* приватный режим */ } }
-    });
-  })();
-  const getUtm = (k) => { try { return sessionStorage.getItem(k) || ''; } catch (e) { return ''; } };
-
-  /* Заявка уходит в Битрикс24 (лид) через api/lead.php на сервере. */
-  async function sendLead(form) {
-    const fd = new FormData(form);
-    const payload = {
-      name: fd.get('name') || '',
-      phone: fd.get('phone') || '',
-      goal: fd.get('goal') || '',
-      lot: fd.get('lot') || '',
-      website: fd.get('website') || '',
-      form: form.dataset.formName || '',
-      page: location.href,
-    };
-    UTM_KEYS.forEach((k) => (payload[k] = getUtm(k)));
-    const res = await fetch(window.SITE.leadEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) throw new Error('lead ' + res.status);
-  }
-
-  $$('#leadForm, [data-lead]').forEach((form) => form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const phone = $('input[type=tel]', form);
-    const ok = phone.value.replace(/\D/g, '').length === 11;
-    const consent = $('input[type=checkbox]', form).checked;
-    phone.classList.toggle('is-error', !ok);
-    if (!ok || !consent) return;
-    const btn = $('button[type=submit]', form);
-    btn.disabled = true; btn.textContent = 'Отправляем…';
-    try {
-      await sendLead(form);
-      form.innerHTML = '<div class="form__ok">Спасибо! Заявка отправлена. Менеджер свяжется с&nbsp;вами в&nbsp;ближайшее время.</div>';
-    } catch (err) {
-      btn.disabled = false; btn.textContent = 'Жду звонка';
-      let msg = $('.form__err', form);
-      if (!msg) { msg = document.createElement('p'); msg.className = 'form__err'; form.appendChild(msg); }
-      msg.innerHTML = `Не получилось отправить заявку. Позвоните нам: <a href="${window.SITE.phoneHref}">${window.SITE.phone}</a>`;
-    }
-  }));
+  modal.addEventListener('close', () => b24Home.appendChild(b24Wrap));
 
   /* ---------- меню ---------- */
   const burger = $('[data-burger]'), nav = $('.nav');
