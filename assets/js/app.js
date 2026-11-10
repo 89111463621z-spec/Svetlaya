@@ -364,7 +364,7 @@
     if (M.defaultLoad) $('#iLoad').value = M.defaultLoad;
     ['#iPrice', '#iRate', '#iLoad', '#iCost'].forEach((s) => $(s).addEventListener('input', calc));
     calc();
-    if (M.cards) {
+    if (false && M.cards) {
       $('#market').innerHTML = M.cards.map((c) => `<div class="market__item"><b>${c.value}</b><span>${c.label}</span></div>`).join('')
         + (M.sources ? `<p class="market__src">Источники: ${M.sources}</p>` : '');
     }
@@ -382,9 +382,16 @@
     ['hall', 'Прихожая', 'tall'], ['shower', 'Душевая', ''], ['house-back', 'Дом зимой', ''],
     ['kids', 'Детская', ''], ['desk', 'Рабочее место', ''], ['sauna-3', 'Интерьер', ''],
   ];
+  const SUMMER = ['dom-s-berezoy', 'dom-gazon', 'dom-sosny', 'doma-v-lesu', 'ulitsa', 'terrasa-kresla']
+    .map((f) => [`summer-${f}`, 'Посёлок летом']);
   function drawGallery() {
-    $('#galleryGrid').innerHTML = GALLERY.map(([f, alt, cls]) =>
-      `<button class="${cls}" data-full="assets/img/${f}.jpg"><img src="assets/img/${f}-sm.jpg" alt="${alt}" loading="lazy"></button>`).join('');
+    // две бегущие строки: верхняя едет влево, нижняя — вправо
+    const all = [...SUMMER, ...GALLERY.map(([f, alt]) => [`${f}`, alt])];
+    const rows = [all.filter((_, i) => i % 2 === 0), all.filter((_, i) => i % 2 === 1)];
+    const imgs = (arr) => arr.map(([f, alt]) =>
+      `<button data-full="assets/img/${f.startsWith('summer-') ? f + '-sm' : f}.jpg"><img src="assets/img/${f}-sm.jpg" alt="${alt}" loading="lazy"></button>`).join('');
+    $('#galleryGrid').innerHTML = rows.map((r, k) =>
+      `<div class="marq marq--${k ? 'r' : 'l'}"><div class="marq__track">${imgs(r)}${imgs(r)}</div></div>`).join('');
     const lb = $('#lightbox'), img = $('img', lb);
     $$('#galleryGrid button').forEach((b) => b.addEventListener('click', () => {
       img.src = b.dataset.full; img.alt = $('img', b).alt; lb.hidden = false;
@@ -423,7 +430,7 @@
 
   /* ---------- появление при скролле ---------- */
   function reveal() {
-    const items = $$('.section__head, .bento__item, .dots, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .gallery__grid button, .cta > *, .plan__wrap');
+    const items = $$('.section__head, .bento__item, .dots, .manage, .scenario, .routes li, .calc, .formula, .renovation__photos, .cta > *, .plan__wrap');
     items.forEach((i) => i.classList.add('reveal'));
     if (!('IntersectionObserver' in window)) { items.forEach((i) => i.classList.add('is-in')); return; }
     const io = new IntersectionObserver((ents) => ents.forEach((en) => {

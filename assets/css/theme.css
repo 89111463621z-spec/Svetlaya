@@ -1,0 +1,344 @@
+/* ==========================================================
+   Тема «Сосна + шафран» и компактная раскладка.
+   Подключается после style.css и переопределяет его.
+   ========================================================== */
+:root{ color-scheme: light; }
+
+:root{
+  --bg:#f4efe7; --bg-2:#ece5da; --surface:#fffdf9; --surface-2:#f7f2ea;
+  --text:#1d2622; --muted:#4f5b55; --accent:#cf7a28; --renov:#cf7a28;
+  --land:#e7eee5; --line:rgba(29,38,34,.10); --line-strong:rgba(29,38,34,.20);
+}
+body{background:var(--bg)!important;color:var(--text);font-size:17px;line-height:1.6}
+/* читаемость: крупнее и контрастнее мелкий текст, меньше «рамочек» */
+.section__lead{color:#3f4a45!important;font-size:18px!important}
+.eyebrow{color:#cf7a28!important;font-weight:600;letter-spacing:.16em}
+h2{font-weight:500!important;letter-spacing:-.02em!important}
+.note{color:#5d6862!important;font-size:14px!important}
+.card{border-color:transparent!important;box-shadow:0 1px 0 rgba(29,38,34,.04),0 10px 30px rgba(29,38,34,.06)}
+.routes li,.formula__item,.market__item,.lot,.fact{border-color:transparent!important;background:var(--surface)!important;box-shadow:0 8px 24px rgba(29,38,34,.06)}
+.routes li span{color:var(--text)!important}
+.routes b,.formula__item b{color:var(--text)}
+.checks li{color:var(--text)}
+
+/* кнопки: тёмный акцент */
+.btn--light,.chip.is-active,.b24-wrap .b24-form-btn{background:#1f4a3c!important;color:#f7f1e6!important}
+.btn--ghost{border-color:rgba(29,38,34,.25)!important;color:var(--text)}
+.chip{color:var(--text)!important;border-color:rgba(29,38,34,.2)!important}
+
+/* шапка */
+.header{background:rgba(255,253,249,.82)!important;color:var(--text);border-color:transparent!important;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.header .header__phone{color:var(--text)} .link-btn{color:var(--muted)!important}
+.burger span{background:var(--text)!important} .burger{border-color:var(--line-strong)!important}
+
+/* первый экран: фото как есть, цифры — на тёмной плашке акцента */
+.card-photo,.hero__content{color:#fbf7f1}
+.card-photo .btn--light{background:#fbf7f1!important;color:#1d2622!important}
+.card-photo .btn--ghost{color:#fbf7f1!important;border-color:rgba(255,255,255,.45)!important}
+.hero__stats{background:#1f4a3ccc;backdrop-filter:blur(8px)}
+.hero__stats b{color:#f7f1e6} .hero__stats span{color:#c9d9d1!important}
+.hero__stats b span{color:#f7f1e6!important}
+.tag{color:#fbf7f1!important}
+
+/* преимущества: плитки без фото — тёмный акцент */
+.bento__item--plain{background:#1f4a3c!important;border:0!important;color:#f7f1e6}
+.bento__item--plain p{color:#c9d9d1!important}
+.bento__big{color:#f7f1e6!important} .bento__big small{color:#c9d9d1!important}
+.bento__icon{color:#f7f1e6!important}
+.dots li{border-color:transparent!important;background:var(--surface);box-shadow:0 6px 18px rgba(29,38,34,.06);color:var(--text)}
+.dots li::before{background:#cf7a28!important}
+
+/* сценарии */
+.scenario li{color:#fbf7f1!important}
+
+/* план */
+.plan__canvas{background:var(--surface)!important}
+.p-common,#planSvg g[filter] polygon{fill:#ece5da!important;stroke:none!important}
+.p-plot .shape{stroke:#fff!important;stroke-width:2!important}
+.p-plot.t-land .shape{fill:#dfe7dd!important}
+.p-plot.t-built .shape{fill:#cfdccf!important}
+.p-plot:hover .shape,.p-plot.is-active .shape{fill:#cf7a2833!important;stroke:#cf7a28!important}
+.p-house{fill:#1f4a3c!important;stroke:none!important}
+.p-plot.is-active .p-house,.p-plot:hover .p-house{fill:#cf7a28!important}
+.p-house-split{stroke:#fff!important}
+.p-num{fill:#1f4a3c!important} .p-sub{fill:#5d6862!important} .p-price{fill:#cf7a28!important}
+.p-road-axis{stroke:rgba(29,38,34,.25)!important}
+.plan__legend{color:var(--muted)}
+.lg--house,.lg--duplex{background:#1f4a3c!important} .lg--land{background:#dfe7dd!important;border:0!important}.lg--common{background:#ece5da!important}
+.plan__panel{background:#1f4a3c!important;color:#f7f1e6}
+.plan__panel .panel__meta,.plan__panel .lot__cad,.plan__panel .panel__empty span{color:#c9d9d1!important}
+.plan__panel .panel__empty p{color:#f7f1e6!important}
+.plan__panel .lot{background:#285a4a!important;box-shadow:none!important}
+.plan__panel .lot__alt{color:#f7f1e6!important}
+.plan__panel .badge{color:#c9d9d1;border-color:rgba(255,255,255,.2)}
+.plan__panel .badge--renov{color:#f7f1e6;border-color:#f7f1e6}
+.plan__panel .btn--light{background:#f7f1e6!important;color:#1f4a3c!important}
+.plan__panel .btn--ghost{color:#f7f1e6!important;border-color:rgba(255,255,255,.3)!important}
+.panel__empty svg{color:#f7f1e6!important}
+.plan__tooltip{background:#1f4a3c!important;color:#f7f1e6}
+
+/* ремонт */
+.formula__item--accent{background:#1f4a3c!important;color:#f7f1e6}
+.formula__item--accent span{color:#c9d9d1!important} .formula__item--accent b{color:#f7f1e6!important}
+.formula__item span{color:var(--muted)}
+
+/* доход */
+.calc{background:var(--surface)!important}
+.calc__result{background:#1f4a3c!important;color:#f7f1e6}
+.calc__result span,.calc__result .note{color:#c9d9d1!important}
+.calc__big b{color:#f7f1e6!important}
+.calc__row{border-color:rgba(255,255,255,.12)!important}
+.range span{color:var(--text)!important}
+input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-color:#fff!important;box-shadow:0 0 0 1px #cf7a28!important}
+.market__item b{color:var(--text)} .market__item span{color:var(--muted)}
+.manage{background:#1f4a3c!important;color:#f7f1e6;border:0!important}
+.manage .section__lead,.manage__list span,.manage .note{color:#c9d9d1!important}
+.manage .eyebrow{color:#f7f1e6!important}
+.manage__list li{background:#285a4a!important;border:0!important}
+.manage__list b{color:#f7f1e6!important}
+
+/* заявка */
+.cta__form{background:#1f4a3c!important;color:#f7f1e6}
+.cta__form .section__lead{color:#c9d9d1!important}
+.cta__form .eyebrow{color:#f7f1e6!important}
+.cta__form .btn--ghost{color:#f7f1e6!important;border-color:rgba(255,255,255,.3)!important}
+.b24-wrap .b24-form-btn{background:#f7f1e6!important;color:#1f4a3c!important}
+.b24-wrap .b24-form-control{color:#f7f1e6!important;border-color:rgba(255,255,255,.25)!important}
+.footer{background:#1f4a3c;color:#c9d9d1;max-width:none!important;padding-left:max(24px,calc((100vw - 1320px)/2))!important;padding-right:max(24px,calc((100vw - 1320px)/2))!important}
+.footer .logo__text,.footer__contacts{color:#f7f1e6!important}
+
+.scenario__tag, .dots, .market, .market__src { display:none!important }
+.section{padding-top:64px!important}
+.section__head{margin-bottom:22px!important}
+.section__lead{font-size:16px!important;margin-top:10px!important}
+
+/* карта: ниже, список компактный */
+.location__grid{grid-template-columns:1.5fr 1fr!important}
+.location__map{min-height:340px!important}
+.routes{gap:6px!important}
+.routes li{padding:10px 16px!important;border-radius:12px!important}
+.routes b{font-size:20px!important}
+.routes-wrap .note{display:none}
+.routes-wrap .btn{min-height:44px}
+
+/* преимущества: одна строка компактных карточек */
+.bento{grid-template-columns:repeat(5,1fr)!important;grid-template-rows:auto!important;gap:10px!important}
+.bento__item,.bento__item--tall{grid-row:auto!important;min-height:150px!important;height:150px}
+.bento__item.card-photo .bento__text{padding:14px!important}
+.bento__text h3{font-size:15px!important}
+.bento__text p{font-size:12.5px!important;margin-top:3px!important}
+.bento__big{font-size:30px!important;top:12px!important;right:14px!important}
+.bento__icon{width:38px;height:28px}
+.bento__item--plain{padding:14px!important}
+
+/* ремонт: одна полоса */
+.renovation__grid{grid-template-columns:1fr 280px!important;gap:28px!important;align-items:center;
+  background:var(--surface);border-radius:28px;padding:28px 32px;box-shadow:0 10px 30px rgba(29,38,34,.06)}
+.renovation .section__lead,.checks,.renovation .note{display:none!important}
+.renovation h2{font-size:30px!important}
+.formula{margin-top:18px!important}
+.formula__item{padding:12px 16px!important}
+.renovation__photos{height:190px!important;grid-template-columns:1fr!important;grid-template-rows:1fr!important}
+.renovation__photos .r2,.renovation__photos .r3{display:none}
+.renovation__photos .r1{grid-row:auto!important}
+
+/* калькулятор: ползунки 2×2, результат строкой */
+.calc{grid-template-columns:1fr!important}
+.calc__inputs{grid-template-columns:1fr 1fr;gap:18px 36px!important;padding:24px 32px!important}
+.range span{margin-bottom:8px!important;font-size:14px!important}
+.calc__result{display:grid!important;grid-template-columns:1.4fr 1fr 1fr 1fr;align-items:end;gap:0 24px!important;padding:22px 32px!important}
+.calc__big b{font-size:38px!important;margin:2px 0 0!important}
+.calc__row{display:block!important;border:0!important;padding:0!important}
+.calc__row span{display:block;font-size:13px}
+.calc__row b{font-size:20px}
+.calc__result .note{grid-column:1/-1;margin-top:12px;font-size:12px!important}
+
+/* управление арендой: тонкая полоса */
+.manage{grid-template-columns:1fr 2fr!important;padding:22px 28px!important;gap:16px 28px!important;align-items:center;margin-top:12px!important}
+.manage .section__lead{display:none!important}
+.manage h3{font-size:22px!important}
+.manage__list{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}
+.manage__list li{padding:12px 14px!important}
+.manage__list span{font-size:12.5px!important}
+.manage__note{font-size:12px!important}
+
+/* галерея: одна лента с прокруткой */
+.gallery__grid{display:flex!important;gap:10px;overflow-x:auto;grid-auto-rows:unset}
+
+
+/* заявка: компактная, без фото */
+.cta{grid-template-columns:1fr!important}
+.cta__card{display:none!important}
+.cta__form{display:grid!important;grid-template-columns:1fr 1fr;gap:0 40px;padding:32px 40px!important;align-items:start}
+.cta__form > .eyebrow,.cta__form > h2,.cta__form > .section__lead,.cta__direct{grid-column:1}
+.cta__form h2{font-size:30px!important}
+.cta__form .b24-slot{grid-column:2;grid-row:1/span 5;margin-top:0!important}
+.b24-wrap .b24-form-control{min-height:48px!important}
+.b24-wrap .b24-form-btn{min-height:48px!important}
+.b24-wrap .b24-form-control{background:rgba(255,255,255,.08)!important}
+.b24-wrap .b24-form-control-label{color:rgba(255,255,255,.7)!important}
+/* 1. цифры первого экрана — отдельной полосой под фото */
+.hero{height:auto!important;min-height:0!important}
+.hero__main{height:min(calc(100svh - 150px),700px)!important}
+.hero__stats{position:static!important;margin-top:12px;background:var(--surface)!important;border-radius:22px;padding:18px 24px!important;box-shadow:0 8px 24px rgba(29,38,34,.06);backdrop-filter:none!important}
+.hero__stats > div + div{border-left:1px solid var(--line)!important}
+.hero__stats b,.hero__stats b span{color:var(--text)!important}
+.hero__stats span{color:var(--muted)!important}
+
+/* 2. сценарии — пропорции как раньше */
+.scenario{min-height:420px!important}
+.scenario h3{font-size:44px!important}
+.scenario li{font-size:16px!important}
+.scenario__body{padding:32px 36px!important}
+
+/* 3. «Готовые дома» и «Доход» — читаемый текст на фото */
+.bento__item,.bento__item--tall{height:180px!important;min-height:180px!important}
+.bento__item.card-photo::after{background:linear-gradient(180deg,rgba(10,18,15,.1) 0%,rgba(10,18,15,.88) 100%)!important}
+.bento__item.card-photo .bento__text h3{font-size:16px!important}
+.bento__item.card-photo .bento__text p{font-size:13.5px!important;color:#fff!important;line-height:1.4}
+.bento__text p{font-size:13.5px!important}
+
+/* 4. ремонт: без жёлтого на зелёном */
+.formula__item--accent{background:var(--accent)!important;color:#fff!important}
+.formula__item--accent b{color:#fff!important}
+.formula__item--accent span{color:rgba(255,255,255,.85)!important}
+
+/* 5. управление арендой — без плашки */
+.manage{background:transparent!important;box-shadow:none!important;padding:8px 0 0!important;color:var(--text)!important;grid-template-columns:1fr!important;margin-top:40px!important}
+.manage .eyebrow{color:var(--accent)!important}
+.manage h3{color:var(--text)!important;font-size:30px!important}
+.manage__list{grid-template-columns:repeat(4,1fr)!important;gap:0!important;border-top:1px solid var(--line-strong)}
+.manage__list li{background:transparent!important;border-radius:0!important;padding:18px 18px 0 0!important;position:relative;counter-increment:m}
+.manage__list li::before{content:'0' counter(m);display:block;font-size:28px;font-weight:300;color:var(--accent);margin-bottom:6px}
+.manage__list b{color:var(--text)!important;font-size:16px}
+.manage__list span{color:var(--muted)!important;font-size:14px!important}
+.manage__note{color:var(--muted)!important}
+.manage__list{counter-reset:m}
+
+/* 6. галерея — две бегущие строки */
+.gallery__grid{display:block!important;overflow:hidden!important}
+
+@keyframes ml{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes mr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+
+/* 7. заявка: слева место под фото/видео, справа форма на светлом */
+.cta{grid-template-columns:1fr 1fr!important;gap:12px!important}
+.cta__card{display:block!important;min-height:0!important;height:auto}
+.cta__form{display:block!important;background:var(--surface)!important;color:var(--text)!important;padding:32px 36px!important}
+.cta__form h2{color:var(--text)!important;font-size:30px!important}
+.cta__form .section__lead{color:var(--muted)!important}
+.cta__form .eyebrow{color:var(--accent)!important}
+.cta__form .b24-slot{margin-top:18px!important}
+.b24-wrap .b24-form-control{background:#fff!important;color:var(--text)!important;border:1.5px solid rgba(29,38,34,.35)!important}
+.b24-wrap .b24-form-control-label{color:#3f4a45!important;font-weight:500}
+.b24-wrap .b24-form-control-desc,.b24-wrap .b24-form-field-agreement,.b24-wrap .b24-form-field-agreement-link{color:#3f4a45!important;font-size:13.5px!important}
+.b24-wrap .b24-form-btn{background:var(--dark,#1f4a3c)!important;color:#f7f1e6!important}
+.cta__form .btn--ghost{color:var(--text)!important;border-color:rgba(29,38,34,.3)!important}
+
+/* 8. подвал — тёмный текст на светлом */
+.footer{background:transparent!important;color:var(--muted)!important}
+.footer .logo__text,.footer__contacts,.footer__contacts a{color:var(--text)!important}
+
+.cta__card{min-height:420px!important}
+.b24-wrap label, .b24-wrap .b24-form-control-label, .b24-wrap .b24-form-control-label *{color:#3f4a45!important;opacity:1!important}
+
+/* плитки преимуществ: заголовки на одной линии */
+.bento__item,.bento__item--tall,.bento__item--plain{display:flex!important;flex-direction:column!important;justify-content:flex-end!important;height:190px!important;min-height:190px!important}
+.bento__text{height:92px;display:flex;flex-direction:column;justify-content:flex-start;padding:0 18px 16px!important}
+.bento__item--plain{padding:0!important}
+.bento__item--plain .bento__text{padding:0 18px 16px!important}
+.bento__icon{position:absolute;left:18px;top:16px}
+.bento__big{top:12px!important;right:18px!important}
+.bento__text h3{font-size:15px!important;line-height:1.25;margin:0 0 6px!important;min-height:19px}
+.bento__text p{margin:0!important;font-size:13px!important;line-height:1.4}
+
+/* сценарии: текст внизу, кнопки на одной линии, без пустоты */
+.scenarios{align-items:stretch}
+.scenario{min-height:380px!important;justify-content:flex-end!important}
+.scenario::after{background:linear-gradient(180deg,rgba(10,18,15,.15) 0%,rgba(10,18,15,.55) 45%,rgba(10,18,15,.9) 100%)!important}
+.scenario__body{display:flex;flex-direction:column;height:100%;justify-content:flex-end;padding:32px 36px!important}
+.scenario h3{font-size:40px!important;margin-bottom:6px}
+.scenario ul{margin:14px 0 22px!important;min-height:124px;gap:8px!important}
+.scenario li{font-size:15.5px!important;line-height:1.4}
+
+.bento .bento__item .bento__text,.bento .bento__item.card-photo .bento__text{height:92px!important;padding:0 18px 16px!important}
+.scenario .btn{align-self:flex-start!important;width:auto!important}
+
+/* ---------- бегущие строки галереи ---------- */
+.marq{overflow:hidden;margin-bottom:10px;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.marq__track{display:flex;gap:10px;width:max-content}
+.marq--l .marq__track{animation:ml 70s linear infinite}
+.marq--r .marq__track{animation:mr 70s linear infinite}
+.marq:hover .marq__track{animation-play-state:paused}
+.gallery__grid .marq button{display:block!important;flex:none;width:auto!important;height:210px!important;padding:0;border:0;border-radius:16px;overflow:hidden;background:var(--surface);cursor:zoom-in}
+.gallery__grid .marq img{height:210px!important;width:auto!important;display:block;object-fit:cover}
+@media (prefers-reduced-motion: reduce){.marq__track{animation:none!important}.marq{overflow-x:auto}}
+
+/* ---------- видео в заявке ---------- */
+.cta__card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.cta__tag{position:absolute;left:20px;top:20px}
+.cta__card::after{background:linear-gradient(180deg,rgba(10,18,15,.25) 0%,rgba(10,18,15,0) 30%)!important}
+
+/* ---------- плашка «Три склона» ---------- */
+.bento__img--ski{object-position:50% 58%!important;transform:scale(1.25);transform-origin:50% 62%}
+.bento__item.card-photo .bento__big{color:#fff!important}
+.bento__item.card-photo .bento__big small{color:rgba(255,255,255,.8)!important}
+
+/* ---------- шапка в светлой теме ---------- */
+.nav a{color:var(--muted)} .nav a:hover{color:var(--text)}
+.logo__text{color:var(--text)}
+
+/* ==========================================================
+   Планшет в портрете и телефон
+   ========================================================== */
+@media (max-width: 1100px){
+  .bento{grid-template-columns:repeat(3,1fr)!important}
+  .calc__inputs{grid-template-columns:1fr!important}
+  .calc__result{grid-template-columns:1fr 1fr!important;gap:14px 24px!important}
+  .manage__list{grid-template-columns:1fr 1fr!important;row-gap:16px!important}
+}
+@media (max-width: 860px){
+  .hero__main{height:auto!important;min-height:560px!important}
+  .hero__stats{grid-template-columns:1fr 1fr!important;row-gap:14px;padding:16px!important}
+  .hero__stats > div:nth-child(3){border-left:0!important}
+  .location__grid{grid-template-columns:1fr!important}
+  .location__map{min-height:300px!important}
+  .bento{grid-template-columns:1fr 1fr!important}
+  .bento__item:first-child{grid-column:1/-1}
+  .scenarios{grid-template-columns:1fr!important}
+  .scenario ul{min-height:0!important}
+  .renovation__grid{grid-template-columns:1fr!important;padding:22px!important}
+  .renovation__photos{height:200px!important}
+  .formula__item{flex:1 1 90px!important}
+  .calc__result{grid-template-columns:1fr 1fr!important;padding:20px!important}
+  .calc__inputs{padding:20px!important}
+  .manage{grid-template-columns:1fr!important}
+  .cta{grid-template-columns:1fr!important}
+  .cta__card{min-height:300px!important}
+  .cta__form{padding:24px 20px!important}
+  .gallery__grid .marq button,.gallery__grid .marq img{height:160px!important}
+  .plan__panel{background:#1f4a3c!important}
+}
+@media (max-width: 520px){
+  .bento{grid-template-columns:1fr!important}
+  .bento__item:first-child{grid-column:auto}
+  .manage__list{grid-template-columns:1fr!important}
+  .calc__big b{font-size:32px!important}
+  .scenario h3{font-size:34px!important}
+  .scenario__body{padding:24px!important}
+}
+
+/* правки телефона */
+@media (max-width: 860px){
+  .hero__main{min-height:0!important;padding-bottom:36px}
+  .manage__list li{padding-top:12px!important}
+}
+@media (max-width: 520px){
+  .manage__list{grid-template-columns:1fr 1fr!important;gap:8px 16px!important}
+  .formula{flex-wrap:nowrap!important;gap:6px!important}
+  .formula__item{padding:10px!important;flex:1 1 0!important}
+  .formula__item b{font-size:17px!important}
+  .formula__op{width:auto!important;height:auto!important}
+}
+.manage__note{color:var(--muted)!important;opacity:1!important}
