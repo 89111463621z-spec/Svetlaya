@@ -202,7 +202,9 @@
       : `${data.area} м² · ${(data.price / data.area * 100).toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽ за сотку`;
 
     panel.innerHTML = `
+      <button class="panel__close" type="button" aria-label="Закрыть">×</button>
       <div class="panel__title"><h3>Участок ${id}</h3><span class="badge">${built ? 'С домами' : 'Свободный'}</span></div>
+      <p class="panel__short">${built ? `Земля ${data.area}&nbsp;м² · дома 65–72&nbsp;м², 2&nbsp;спальни` : `${sot(data.area)} · ${(data.price / data.area * 100).toLocaleString('ru-RU', { maximumFractionDigits: 0 })}&nbsp;₽ за&nbsp;сотку`}</p>
       <p class="panel__meta">${meta}</p>
       <div class="panel__lots">${lots.map(lotCard).join('')}</div>
       ${lots.some((l) => l.type === 'house' && !l.renov) ? '<p class="note panel__note">Ремонт под ключ для дома без ремонта&nbsp;— 2&nbsp;млн&nbsp;₽. Заезжаете в&nbsp;готовый дом.</p>' : ''}
@@ -210,12 +212,28 @@
       <div class="panel__photo"><img src="assets/img/${photo}" alt="" loading="lazy"></div>
       <div class="panel__actions">
         <button class="btn btn--light" data-open-callback data-lot="Участок ${id}">Узнать подробнее</button>
-        <a class="btn btn--ghost" href="${window.SITE.phoneHref}">Позвонить: ${window.SITE.phone}</a>
+        <a class="btn btn--ghost" href="${window.SITE.phoneHref}">Позвонить<span class="ph-num">: ${window.SITE.phone}</span></a>
       </div>`;
     if (window.matchMedia('(max-width: 860px)').matches) {
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      panel.classList.add('is-sheet');
+      panel.scrollTop = 0;
+      document.body.classList.add('sheet-open');
     }
+    $('.panel__close', panel).addEventListener('click', closeSheet);
   }
+
+  /* карточка участка на телефоне — шторка снизу */
+  function closeSheet() {
+    panel.classList.remove('is-sheet');
+    document.body.classList.remove('sheet-open');
+  }
+  const sheetBg = document.createElement('div');
+  sheetBg.className = 'sheet-bg';
+  sheetBg.addEventListener('click', closeSheet);
+  document.body.appendChild(sheetBg);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+  // «Узнать подробнее» внутри шторки: сначала закрываем шторку
+  panel.addEventListener('click', (e) => { if (e.target.closest('[data-open-callback]')) closeSheet(); });
 
   /* ---------- таблица лотов ---------- */
   const body = $('#lotsBody');
