@@ -349,3 +349,14 @@ input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-colo
   .nav.is-open a{color:var(--text)!important;border-radius:14px}
   .nav.is-open a:hover,.nav.is-open a:active{background:var(--surface-2)}
 }
+
+/* бегущие строки: фиксированный размер карточек (Safari/iPad) */
+.marq{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.marq__track{will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.gallery__grid .marq button{width:280px!important;height:210px!important;flex:0 0 280px!important}
+.gallery__grid .marq img{width:100%!important;height:100%!important;object-fit:cover}
+@keyframes ml{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes mr{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
+@media (max-width: 860px){
+  .gallery__grid .marq button{width:210px!important;height:160px!important;flex:0 0 210px!important}
+}

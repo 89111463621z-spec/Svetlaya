@@ -389,7 +389,7 @@
     const all = [...SUMMER, ...GALLERY.map(([f, alt]) => [`${f}`, alt])];
     const rows = [all.filter((_, i) => i % 2 === 0), all.filter((_, i) => i % 2 === 1)];
     const imgs = (arr) => arr.map(([f, alt]) =>
-      `<button data-full="assets/img/${f.startsWith('summer-') ? f + '-sm' : f}.jpg"><img src="assets/img/${f}-sm.jpg" alt="${alt}" loading="lazy"></button>`).join('');
+      `<button data-full="assets/img/${f.startsWith('summer-') ? f + '-sm' : f}.jpg"><img src="assets/img/${f}-sm.jpg" alt="${alt}" decoding="async"></button>`).join('');
     $('#galleryGrid').innerHTML = rows.map((r, k) =>
       `<div class="marq marq--${k ? 'r' : 'l'}"><div class="marq__track">${imgs(r)}${imgs(r)}</div></div>`).join('');
     const lb = $('#lightbox'), img = $('img', lb);
