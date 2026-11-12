@@ -307,7 +307,7 @@
       s.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU${key}`;
       s.onerror = fallback;
       s.onload = () => window.ymaps.ready(() => {
-        const map = new window.ymaps.Map(box, { center: [L.lat, L.lon], zoom: 12, controls: ['zoomControl', 'fullscreenControl'] }, { suppressMapOpenBlock: false });
+        const map = new window.ymaps.Map(box, { center: [L.lat, L.lon], zoom: 12, controls: window.matchMedia('(max-width: 860px)').matches ? ['fullscreenControl'] : ['zoomControl', 'fullscreenControl'] }, { suppressMapOpenBlock: false });
         map.behaviors.disable('scrollZoom');
         const preset = { home: 'islands#orangeDotIconWithCaption', ski: 'islands#blueDotIconWithCaption', lake: 'islands#lightBlueDotIconWithCaption', rail: 'islands#grayDotIconWithCaption' };
         const home = new window.ymaps.Placemark([L.lat, L.lon], { iconCaption: 'Светлая Дача', balloonContent: 'Коттеджный посёлок «Светлая Дача»' }, { preset: preset.home, zIndex: 1000 });
@@ -317,8 +317,11 @@
           map.geoObjects.add(m);
           return m;
         });
-        const near = [[L.lat, L.lon], ...pts.filter((pt) => !pt.far).map((pt) => [pt.lat, pt.lon])];
-        map.setBounds(window.ymaps.util.bounds.fromPoints(near), { checkZoomRange: true, zoomMargin: [50, 140, 50, 50] });
+        // на телефоне — крупнее: посёлок и курорты, без озера и станции
+        const phone = window.matchMedia('(max-width: 860px)').matches;
+        const near = [[L.lat, L.lon], ...pts.filter((pt) => !pt.far && (!phone || pt.kind === 'ski')).map((pt) => [pt.lat, pt.lon])];
+        if (phone) map.setCenter([60.5395, 29.7900], 12);
+        else map.setBounds(window.ymaps.util.bounds.fromPoints(near), { checkZoomRange: true, zoomMargin: [50, 140, 50, 50] });
         $$('#routes li[data-pt]').forEach((li) => {
           const i = +li.dataset.pt;
           if (i < 0) return;

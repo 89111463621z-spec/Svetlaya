@@ -382,3 +382,6 @@ input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-colo
   .routes-wrap{gap:12px!important}
   .routes-wrap .btn{min-height:46px;width:100%}
 }
+
+/* карта на телефоне выше */
+@media (max-width: 860px){ .location__map{min-height:420px!important} }
