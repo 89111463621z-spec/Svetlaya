@@ -369,3 +369,16 @@ input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-colo
 @media (max-width: 520px){
   .bento__item,.bento__item--tall{height:170px!important;min-height:170px!important}
 }
+
+/* список мест у карты на телефоне — одна компактная карточка */
+@media (max-width: 860px){
+  .routes{gap:0!important;background:var(--surface);border-radius:18px;padding:4px 16px;box-shadow:0 8px 24px rgba(29,38,34,.06)}
+  .routes li{background:transparent!important;box-shadow:none!important;border-radius:0!important;padding:11px 0!important;border-bottom:1px solid var(--line)!important}
+  .routes li:last-child{border-bottom:0!important}
+  .routes li span{font-size:14.5px!important;gap:10px!important}
+  .routes b{font-size:17px!important}
+  .routes b small{font-size:12px!important}
+  .rt-dot{width:9px;height:9px;box-shadow:none!important}
+  .routes-wrap{gap:12px!important}
+  .routes-wrap .btn{min-height:46px;width:100%}
+}
