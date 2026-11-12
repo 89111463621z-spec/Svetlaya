@@ -360,3 +360,12 @@ input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-colo
 @media (max-width: 860px){
   .gallery__grid .marq button{width:210px!important;height:160px!important;flex:0 0 210px!important}
 }
+
+/* преимущества на телефоне и планшете: одинаковые промежутки */
+@media (max-width: 1100px){
+  .bento{grid-auto-rows:auto!important;grid-template-rows:none!important;gap:12px!important;align-items:stretch}
+  .bento__item,.bento__item--tall{grid-row:auto!important;margin:0!important}
+}
+@media (max-width: 520px){
+  .bento__item,.bento__item--tall{height:170px!important;min-height:170px!important}
+}
