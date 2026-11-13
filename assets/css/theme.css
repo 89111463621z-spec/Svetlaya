@@ -469,3 +469,11 @@ h1,h2,h3,.hero__title,.section__title-center,.calc__big b,.lotcard__price,.formu
   font-family:var(--font-head)!important;font-weight:400!important;letter-spacing:-.015em!important}
 .bento__text h3{text-transform:none!important;font-size:18px!important}
 .p-num,.p-sub,.p-price,.p-sold{font-family:var(--font)!important}
+
+/* стрелки «листать» в блоке рендеров на телефоне */
+@media (max-width:860px){
+  .proekt__nav{display:grid!important;place-items:center;width:40px;height:40px;bottom:14px;font-size:24px}
+  .proekt__nav--prev{right:62px}.proekt__nav--next{right:14px}
+  .proekt__main figcaption{right:116px!important}
+  .proekt__main figcaption b{font-size:20px}
+}

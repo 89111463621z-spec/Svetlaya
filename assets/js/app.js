@@ -485,6 +485,9 @@
       $('#proektImg').src = `assets/img/proekt/${f}.jpg`; $('#proektImg').alt = `${t} — визуализация проекта`;
       $('#proektCap').textContent = t;
       $$('#proektList button').forEach((b, k) => b.classList.toggle('is-active', k === cur));
+      // миниатюры на телефоне: прокручиваем ленту к выбранной, страницу не двигаем
+      const act = $(`#proektList button[data-i="${cur}"]`);
+      if (act && list.scrollWidth > list.clientWidth) list.scrollTo({ left: act.parentElement.offsetLeft - (list.clientWidth - act.offsetWidth) / 2, behavior: 'smooth' });
     };
     $$('#proektList button').forEach((b) => b.addEventListener('click', () => show(+b.dataset.i)));
     $('.proekt__nav--prev').addEventListener('click', () => show(cur - 1));
