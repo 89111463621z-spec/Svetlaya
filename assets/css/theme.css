@@ -431,51 +431,6 @@ input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-colo
 }
 @media (max-width: 860px){ .plan__panel .ph-num,.plan__panel .panel__note{display:none!important} }
 
-/* ---------- отдельные лоты на плане ---------- */
-.p-plot.t-built{cursor:default}
-.p-plot.t-built .shape--outline{fill:none!important;stroke:#fff!important;stroke-width:2.4!important;pointer-events:none}
-.p-plot.t-built:hover .shape--outline{fill:none!important}
-.p-lot{cursor:pointer;outline:none}
-.p-lot .lzone{fill:#cfdccf;stroke:rgba(255,255,255,.9);stroke-width:1;stroke-dasharray:3 3;transition:fill .2s}
-.p-lot.is-renov .lzone{fill:#c3d6c6}
-.p-lot:hover .lzone,.p-lot:focus-visible .lzone{fill:#cf7a2833}
-.p-lot.is-active .lzone{fill:#cf7a2855;stroke:#cf7a28;stroke-width:2.2;stroke-dasharray:none}
-.p-lot .p-house{fill:#1f4a3c!important;stroke:#fff!important;stroke-width:1!important}
-.p-lot.is-active .p-house,.p-lot:hover .p-house{fill:#cf7a28!important}
-.p-lot.is-dim{opacity:.25}
-/* статусы */
-.p-lot.st-reserved .lzone,.p-plot.st-reserved .shape{fill:#f2d7a6!important}
-.p-lot.st-sold .lzone,.p-plot.st-sold .shape{fill:#e3e0da!important}
-.p-lot.st-sold .p-house{fill:#9aa39f!important}
-.p-plot.st-sold .p-price{fill:#9aa39f!important;text-decoration:line-through}
-.p-sold{font:600 14px var(--font);fill:#fff;text-anchor:middle;pointer-events:none}
-.plan__legend .lg--reserved{background:#f2d7a6!important}
-.plan__legend .lg--sold{background:#e3e0da!important;border:1px solid #c9c4bb}
-
-/* карточка одного лота */
-.lotcard__sub{font-size:13.5px;color:#c9d9d1;margin-top:4px}
-.lotcard__price{font-size:30px;font-weight:300;margin-top:14px;letter-spacing:-.01em}
-.lotcard__price s{opacity:.6}
-.lotcard__alt{font-size:13px;color:#f2c14e;margin-top:2px}
-.lotcard__facts{margin:16px 0 0;display:grid;gap:8px}
-.lotcard__facts div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.12)}
-.lotcard__facts dt{color:#c9d9d1;font-size:13.5px}
-.lotcard__facts dd{margin:0;text-align:right;font-size:14px}
-.lotcard__note{font-size:12px!important;color:#c9d9d1!important;margin-top:6px}
-.lotcard__nb-h{margin-top:16px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#c9d9d1}
-.lotcard__nb{display:grid;gap:6px;margin-top:8px}
-.lotcard__nb button{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:12px;border:0;background:#285a4a;color:#f7f1e6;font-size:13.5px;text-align:left}
-.lotcard__nb button.st-sold{opacity:.55}
-.st-badge--free{color:#c9e8d4!important;border-color:rgba(201,232,212,.5)!important}
-.st-badge--reserved{color:#f2c14e!important;border-color:#f2c14e!important}
-.st-badge--sold{color:#e3e0da!important;border-color:#e3e0da!important}
-.panel__actions .btn[disabled]{opacity:.45;pointer-events:none}
-@media (max-width: 860px){
-  .lotcard__price{font-size:24px;margin-top:10px}
-  .plan__panel .panel__note.lotcard__note{display:block!important}
-  .panel__title .st-badge{display:inline-flex!important}
-}
-
 /* ---------- проект благоустройства ---------- */
 .proekt__viewer{display:grid;grid-template-columns:1fr 300px;gap:12px;height:clamp(420px,46vw,600px)}
 .proekt__main{margin:0;position:relative}

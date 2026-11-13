@@ -27,24 +27,24 @@ const Q = '47:03:1001001:';
 
 window.PLOTS = {
   '2': { cad: Q + '625', area: 729, houses: [
-    { kind: 'house', code: 'Д-09', cad: Q + '303', renov: true,  price: 6000000 },
-    { kind: 'house', code: 'Д-10', cad: Q + '309', renov: false, price: 4000000 },
+    { kind: 'house', cad: Q + '303', renov: true,  price: 6000000 },
+    { kind: 'house', cad: Q + '309', renov: false, price: 4000000 },
   ]},
   '3': { cad: Q + '624', area: 849, houses: [
-    { kind: 'house', code: 'Д-07', cad: Q + '299', renov: true,  price: 6000000 },
-    { kind: 'house', code: 'Д-08', cad: Q + '302', renov: false, price: 4000000 },
+    { kind: 'house', cad: Q + '299', renov: true,  price: 6000000 },
+    { kind: 'house', cad: Q + '302', renov: false, price: 4000000 },
   ]},
   '4': { cad: Q + '623', area: 1054, houses: [
-    { kind: 'house',  code: 'Д-06', cad: Q + '306', renov: true,  price: 6000000 },
-    { kind: 'duplex', code: 'Д-05', cad: Q + '301', renov: false, price: 6000000 },
+    { kind: 'house',  cad: Q + '306', renov: true,  price: 6000000 },
+    { kind: 'duplex', cad: Q + '301', renov: false, price: 6000000 },
   ]},
   '5': { cad: Q + '622', area: 967, houses: [
-    { kind: 'duplex', code: 'Д-03', cad: Q + '304', renov: true,  price: 9000000 },
-    { kind: 'duplex', code: 'Д-04', cad: Q + '308', renov: false, price: 6000000 },
+    { kind: 'duplex', cad: Q + '304', renov: true,  price: 9000000 },
+    { kind: 'duplex', cad: Q + '308', renov: false, price: 6000000 },
   ]},
   '6': { cad: Q + '621', area: 883, houses: [
-    { kind: 'duplex', code: 'Д-01', cad: Q + '305', renov: false, price: 6000000 },
-    { kind: 'duplex', code: 'Д-02', cad: Q + '307', renov: false, price: 6000000 },
+    { kind: 'duplex', cad: Q + '305', renov: false, price: 6000000 },
+    { kind: 'duplex', cad: Q + '307', renov: false, price: 6000000 },
   ]},
   '7':  { area: 800,  price: 1500000 },
   '8':  { area: 800,  price: 1500000 },
@@ -57,15 +57,6 @@ window.PLOTS = {
   '15': { area: 1000, price: 1700000 },
   '16': { cad: Q + '619', area: 915,  price: 1600000 },
   '17': { cad: Q + '620', area: 1200, price: 2000000 },
-};
-
-/* ==========================================================
-   СТАТУСЫ ЛОТОВ — здесь отмечаем бронь и продажи.
-   Ключ — код лота из шахматки (Д-01.1, Д-06, …) или номер участка на плане ('7', '12').
-   Значения: 'reserved' — бронь, 'sold' — продан. Свободные лоты не указываем.
-   Пример:  'Д-09': 'sold',  'Д-01.2': 'reserved',  '13': 'sold',
-   ========================================================== */
-window.STATUS = {
 };
 
 /* Участок из договора, которого нет на плане межевания */
@@ -82,15 +73,13 @@ window.buildLots = function () {
         const letter = String.fromCharCode(1040 + i); // А, Б
         if (h.kind === 'duplex') {
           [1, 2].forEach((half) => lots.push({
-            id: `${plot}-${letter}${half}`, code: `${h.code}.${half}`, house: i, half, plot, type: 'duplex', renov: h.renov,
-            landShare: 4, landArea: Math.round(p.area / 4),
+            id: `${plot}-${letter}${half}`, plot, type: 'duplex', renov: h.renov,
             price: h.price / 2, cad: h.cad, plotCad: p.cad, plotArea: p.area,
             title: `½ дуплекса ${h.renov ? 'с\u00a0ремонтом' : 'без\u00a0ремонта'}`,
           }));
         } else {
           lots.push({
-            id: `${plot}-${letter}`, code: h.code, house: i, plot, type: 'house', renov: h.renov,
-            landShare: 2, landArea: Math.round(p.area / 2),
+            id: `${plot}-${letter}`, plot, type: 'house', renov: h.renov,
             price: h.price, cad: h.cad, plotCad: p.cad, plotArea: p.area,
             title: `Дом ${h.renov ? 'с\u00a0ремонтом' : 'без\u00a0ремонта'}`,
           });
@@ -107,8 +96,6 @@ window.buildLots = function () {
     id: p.id, plot: null, type: 'land', price: p.price, plotCad: p.cad, plotArea: p.area,
     title: `Участок ${(p.area / 100).toLocaleString('ru-RU')} сот.`, note: p.note,
   }));
-  const S = window.STATUS || {};
-  lots.forEach((l) => { l.status = S[l.code] || S[l.id] || 'free'; });
   return lots;
 };
 

@@ -49,9 +49,6 @@
   };
   const pts = (arr) => arr.map((p) => p.join(',')).join(' ');
   const plotGroups = {};
-  const lotGroups = {};
-  const STATUS_TXT = { free: 'Свободен', reserved: 'Бронь', sold: 'Продан' };
-  let activeLot = null;
 
   function lotsOfPlot(id) { return LOTS.filter((l) => l.plot === id); }
 
@@ -66,7 +63,6 @@
     ROT = mqPortrait.matches;
     svg.innerHTML = '';
     for (const k in plotGroups) delete plotGroups[k];
-    for (const k in lotGroups) delete lotGroups[k];
     svg.classList.toggle('is-rot', ROT);
     const W = ROT ? G.h : G.w, H = ROT ? G.w : G.h;
     svg.setAttribute('viewBox', `-10 -10 ${W + 20} ${H + 20}`);
@@ -104,27 +100,22 @@
         tabindex: 0, role: 'button', 'data-plot': p.id,
         'aria-label': `Участок ${p.id}, ${data.area} м²`,
       }, svg);
-      el('polygon', { points: tps(p.pts), class: built ? 'shape shape--outline' : 'shape' }, g);
+      el('polygon', { points: tps(p.pts), class: 'shape' }, g);
 
-      // участок с домами: каждый лот — своя зона (½ участка под домом, ¼ — под половиной дуплекса)
+      // дома
       if (built) {
-        (p.lots || []).forEach((z) => {
-          const lot = lots.find((l) => l.house === z.house && (z.half === null || l.half === z.half + 1));
-          if (!lot) return;
-          const lg = el('g', {
-            class: `p-lot st-${lot.status}${lot.renov ? ' is-renov' : ''}`, tabindex: 0, role: 'button', 'data-lot': lot.id,
-            'aria-label': `Участок ${p.id}, ${lot.title}, ${mln(lot.price)}`,
-          }, g);
-          el('polygon', { points: tps(z.pts), class: 'lzone' }, lg);
-          el('polygon', { points: tps(z.hpts), class: 'p-house' }, lg);
-          if (lot.status === 'sold') {
-            const c = z.hpts.map(tp).reduce((s, q) => [s[0] + q[0] / z.hpts.length, s[1] + q[1] / z.hpts.length], [0, 0]);
-            const t = el('text', { x: c[0], y: c[1] + 4, class: 'p-sold' }, lg); t.textContent = '✕';
+        p.houses.forEach((h0, i) => {
+          const h = h0.map(tp);
+          el('polygon', { points: pts(h), class: 'p-house' }, g);
+          const isDuplex = p.hArea[i] > 4500; // пятно дуплекса ~75 м², дома ~45 м²
+          if (isDuplex) {
+            // делим дуплекс пополам по короткой оси
+            const [a, b, c, d] = h;
+            const len = (u, v) => Math.hypot(u[0] - v[0], u[1] - v[1]);
+            const mid = (u, v) => [(u[0] + v[0]) / 2, (u[1] + v[1]) / 2];
+            const [m1, m2] = len(a, b) > len(b, c) ? [mid(a, b), mid(c, d)] : [mid(b, c), mid(d, a)];
+            el('line', { x1: m1[0], y1: m1[1], x2: m2[0], y2: m2[1], class: 'p-house-split' }, g);
           }
-          lg.addEventListener('click', (e) => { e.stopPropagation(); selectLot(lot.id); });
-          lg.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); selectLot(lot.id); } });
-          lg.addEventListener('mousemove', (e) => { e.stopPropagation(); showLotTip(e, lot); });
-          lotGroups[lot.id] = lg;
         });
       }
 
@@ -149,8 +140,7 @@
         }
       }
 
-      if (!built) g.classList.add('st-' + (lots[0] && lots[0].status));
-      g.addEventListener('click', () => { if (!built) selectPlot(p.id); });
+      g.addEventListener('click', () => selectPlot(p.id));
       g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPlot(p.id); } });
       g.addEventListener('mousemove', (e) => showTip(e, p.id));
       g.addEventListener('mouseleave', () => (tip.hidden = true));
@@ -165,14 +155,6 @@
     const box = svg.parentElement.getBoundingClientRect();
     const what = data.houses ? `${lots.length} ${plural(lots.length, ['лот', 'лота', 'лотов'])}` : sot(data.area);
     tip.innerHTML = `Участок ${id} · ${what} · <b>от ${mln(min)}</b>`;
-    tip.style.left = e.clientX - box.left + 'px';
-    tip.style.top = e.clientY - box.top + 'px';
-    tip.hidden = false;
-  }
-
-  function showLotTip(e, lot) {
-    const box = svg.parentElement.getBoundingClientRect();
-    tip.innerHTML = `Участок ${lot.plot} · ${lot.title} · <b>${lot.status === 'sold' ? 'продан' : mln(lot.price)}</b>`;
     tip.style.left = e.clientX - box.left + 'px';
     tip.style.top = e.clientY - box.top + 'px';
     tip.hidden = false;
@@ -206,9 +188,8 @@
   }
 
   function selectPlot(id) {
-    activePlot = id; activeLot = null;
+    activePlot = id;
     Object.values(plotGroups).forEach((g) => g.classList.remove('is-active'));
-    Object.values(lotGroups).forEach((g) => g.classList.remove('is-active'));
     plotGroups[id]?.classList.add('is-active');
     const data = window.PLOTS[id];
     const lots = lotsOfPlot(id);
@@ -241,42 +222,6 @@
     $('.panel__close', panel).addEventListener('click', closeSheet);
   }
 
-  function selectLot(id) {
-    const lot = LOTS.find((l) => l.id === id);
-    if (!lot) return;
-    activePlot = null; activeLot = id;
-    Object.values(plotGroups).forEach((g) => g.classList.remove('is-active'));
-    Object.values(lotGroups).forEach((g) => g.classList.remove('is-active'));
-    lotGroups[id]?.classList.add('is-active');
-    const data = window.PLOTS[lot.plot];
-    const neighbours = lotsOfPlot(lot.plot).filter((l) => l.id !== id);
-    const share = lot.type === 'duplex' ? '¼' : '½';
-    const badge = `<span class="badge st-badge st-badge--${lot.status}">${STATUS_TXT[lot.status]}</span>`;
-    const alt = lot.type === 'house' && !lot.renov ? `<p class="lotcard__alt">С ремонтом под ключ: ${mln(lot.price + RENO)}</p>`
-      : lot.type === 'duplex' && !lot.renov ? '<p class="lotcard__alt">Ремонт — по запросу</p>' : '';
-    panel.innerHTML = `
-      <button class="panel__close" type="button" aria-label="Закрыть">×</button>
-      <div class="panel__title"><h3>${lot.type === 'duplex' ? '½ дуплекса' : 'Дом'}</h3>${badge}</div>
-      <p class="lotcard__sub">Участок ${lot.plot} · лот ${lot.code} · ${lot.renov ? 'с ремонтом' : 'без ремонта'}</p>
-      <p class="lotcard__price">${lot.status === 'sold' ? '<s>' + mln(lot.price) + '</s>' : mln(lot.price)}</p>${alt}
-      <dl class="lotcard__facts">
-        <div><dt>Дом</dt><dd>${lot.type === 'duplex' ? '½ дуплекса, ' : ''}65–72&nbsp;м², 2&nbsp;спальни</dd></div>
-        <div><dt>Земля</dt><dd>≈ ${lot.landArea}&nbsp;м² · ${share} участка ${data.area}&nbsp;м²</dd></div>
-      </dl>
-      <p class="note lotcard__note">Доля земли расчётная: цена дома уже включает землю под ним.</p>
-      ${neighbours.length ? `<p class="lotcard__nb-h">Ещё на этом участке</p><div class="lotcard__nb">${neighbours.map((n) =>
-        `<button type="button" data-lot-pick="${n.id}" class="st-${n.status}"><span>${n.title}</span><b>${n.status === 'sold' ? 'продан' : mln(n.price)}</b></button>`).join('')}</div>` : ''}
-      <div class="panel__actions">
-        <button class="btn btn--light" data-open-callback data-lot="Участок ${lot.plot}, лот ${lot.code}" ${lot.status === 'sold' ? 'disabled' : ''}>Узнать подробнее</button>
-        <a class="btn btn--ghost" href="${window.SITE.phoneHref}">Позвонить<span class="ph-num">: ${window.SITE.phone}</span></a>
-      </div>`;
-    $$('[data-lot-pick]', panel).forEach((b) => b.addEventListener('click', () => selectLot(b.dataset.lotPick)));
-    if (window.matchMedia('(max-width: 860px)').matches) {
-      panel.classList.add('is-sheet'); panel.scrollTop = 0; document.body.classList.add('sheet-open');
-    }
-    $('.panel__close', panel).addEventListener('click', closeSheet);
-  }
-
   /* карточка участка на телефоне — шторка снизу */
   function closeSheet() {
     panel.classList.remove('is-sheet');
@@ -303,7 +248,7 @@
       const alt = l.type === 'house' && !l.renov ? `<small>с ремонтом ${mln(l.price + RENO)}</small>`
         : l.type === 'duplex' && !l.renov ? '<small>ремонт по запросу</small>' : '';
       const btn = l.plot
-        ? `<button data-goto="${l.plot}" data-goto-lot="${l.type === 'land' ? '' : l.id}">На плане</button>`
+        ? `<button data-goto="${l.plot}">На плане</button>`
         : `<button data-open-callback data-lot="Участок ${l.plotArea} м²">Узнать</button>`;
       return `<div class="lots__row" role="row" data-lot-id="${l.id}">
         <span role="cell">${l.plot ? `№ ${l.plot}` : '—'}</span>
@@ -314,7 +259,7 @@
       </div>`;
     }).join('');
     $$('[data-goto]', body).forEach((b) => b.addEventListener('click', () => {
-      if (b.dataset.gotoLot) selectLot(b.dataset.gotoLot); else selectPlot(b.dataset.goto);
+      selectPlot(b.dataset.goto);
       $('#plan').scrollIntoView({ behavior: 'smooth' });
     }));
   }
@@ -330,11 +275,7 @@
       row.classList.toggle('is-hidden', !ok);
       if (ok) shown++;
     });
-    Object.entries(lotGroups).forEach(([id, g]) => {
-      g.classList.toggle('is-dim', !fn(LOTS.find((l) => l.id === id)));
-    });
     Object.entries(plotGroups).forEach(([id, g]) => {
-      if (window.PLOTS[id].houses) return;
       g.classList.toggle('is-dim', !lotsOfPlot(id).some(fn));
     });
     $('#lotsCount').textContent = `${shown} ${plural(shown, ['лот', 'лота', 'лотов'])}`;
@@ -560,7 +501,6 @@
     drawPlan();
     applyFilter(currentFilter);
     if (activePlot) plotGroups[activePlot]?.classList.add('is-active');
-    if (activeLot) lotGroups[activeLot]?.classList.add('is-active');
   });
   drawLocation();
   initCalc();
