@@ -462,13 +462,6 @@ input[type=range]::-webkit-slider-thumb{background:#cf7a28!important;border-colo
   .proekt__list b{font-size:12.5px}
 }
 
-/* ---------- шрифты: Playfair Display (заголовки) + Inter (текст) ---------- */
-:root{--font:'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; --font-head:'Playfair Display', Georgia, 'Times New Roman', serif}
-body,.btn,.chip,input,button,select{font-family:var(--font)}
-h1,h2,h3,.hero__title,.section__title-center,.calc__big b,.lotcard__price,.formula__item b,.bento__big,.proekt__main figcaption b,.panel__title h3,.scenario h3{
-  font-family:var(--font-head)!important;font-weight:400!important;letter-spacing:-.015em!important}
-.bento__text h3{text-transform:none!important;font-size:18px!important}
-.p-num,.p-sub,.p-price,.p-sold{font-family:var(--font)!important}
 
 /* стрелки «листать» в блоке рендеров на телефоне */
 @media (max-width:860px){
