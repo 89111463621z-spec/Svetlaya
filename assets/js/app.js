@@ -519,6 +519,38 @@
     items.forEach((i) => io.observe(i));
   }
 
+  /* ---------- проект благоустройства ---------- */
+  const PROEKT = [
+    ['vid-sverhu', 'Посёлок с высоты', 'Общий вид'],
+    ['banya-bassein', 'Баня с бассейном', 'Отдых'],
+    ['sportploshchadka', 'Универсальная спортплощадка', 'Футбол, баскетбол, волейбол; зимой — каток'],
+    ['kostrovaya', 'Костровая зона и тренажёры', 'Отдых и спорт'],
+    ['detskaya', 'Детская площадка', 'Для семей'],
+    ['shater', 'Шатёр и летний кинотеатр', 'Мероприятия'],
+    ['vezd', 'Въезд и парковка', 'Инфраструктура'],
+    ['resepshen', 'Ресепшен', 'Инфраструктура'],
+    ['ulitsa', 'Улицы и тропы', 'Прогулки'],
+    ['uchastok', 'Участок с домом', 'Пример благоустройства'],
+    ['shater-vecher', 'Шатёр вечером', 'Подсветка'],
+    ['vecher', 'Вечерний посёлок', 'Подсветка'],
+  ];
+  function drawProekt() {
+    const list = $('#proektList'); if (!list) return;
+    let cur = 0;
+    list.innerHTML = PROEKT.map(([f, t, s], i) => `<li><button type="button" data-i="${i}"><img src="assets/img/proekt/${f}-sm.jpg" alt="" loading="lazy"><span><b>${t}</b><small>${s}</small></span></button></li>`).join('');
+    const show = (i) => {
+      cur = (i + PROEKT.length) % PROEKT.length;
+      const [f, t] = PROEKT[cur];
+      $('#proektImg').src = `assets/img/proekt/${f}.jpg`; $('#proektImg').alt = `${t} — визуализация проекта`;
+      $('#proektCap').textContent = t;
+      $$('#proektList button').forEach((b, k) => b.classList.toggle('is-active', k === cur));
+    };
+    $$('#proektList button').forEach((b) => b.addEventListener('click', () => show(+b.dataset.i)));
+    $('.proekt__nav--prev').addEventListener('click', () => show(cur - 1));
+    $('.proekt__nav--next').addEventListener('click', () => show(cur + 1));
+    show(0);
+  }
+
   /* ---------- старт ---------- */
   drawPlan();
   drawTable();
@@ -533,5 +565,6 @@
   drawLocation();
   initCalc();
   drawGallery();
+  drawProekt();
   reveal();
 })();
