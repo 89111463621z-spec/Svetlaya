@@ -15,7 +15,7 @@ const { chromium } = require('playwright');
     path: path.join(root, 'assets', 'svetlaya-dacha-price.pdf'),
     format: 'A4',
     printBackground: true,
-    scale: 0.92,
+    scale: 1,
     pageRanges: '1',
     margin: { top: '0', right: '0', bottom: '0', left: '0' },
   });

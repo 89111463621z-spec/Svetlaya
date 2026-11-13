@@ -3,73 +3,131 @@
 <head>
 <meta charset="utf-8">
 <title>Светлая Дача — прайс-лист</title>
-<!-- Шаблон прайс-листа. PDF собирается командой: node tools/make-price.js
+<!-- Шаблон прайс-листа в стиле сайта. PDF собирается командой: node tools/make-price.js
      Данные берутся из assets/js/data.js — правьте цены там. -->
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   @page { size: A4; margin: 0; }
+  :root { --bg:#f4efe7; --card:#fffdf9; --pine:#1f4a3c; --pine2:#285a4a; --cream:#f7f1e6; --mint:#c9d9d1; --text:#1d2622; --muted:#5d6862; --line:rgba(29,38,34,.10); --accent:#cf7a28; }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 400 9.5pt/1.35 'Manrope', Arial, sans-serif; color: #1c2a25; background: #fff; }
-  .page { padding: 12mm 14mm 10mm; }
-  header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 5mm; border-bottom: 1px solid #d9dfdb; }
-  .brand { display: flex; gap: 10px; align-items: center; }
-  .brand svg { width: 34px; height: 34px; color: #c97f38; }
-  .brand b { display: block; font-weight: 500; font-size: 20pt; letter-spacing: -.02em; line-height: 1; }
-  .brand span { color: #6b7a74; font-size: 9pt; }
-  .meta { text-align: right; color: #6b7a74; font-size: 9pt; }
-  .meta strong { display: block; color: #1c2a25; font-size: 12pt; font-weight: 500; }
-  h2 { font-weight: 400; font-size: 13pt; margin: 5mm 0 2mm; letter-spacing: -.01em; }
-  h2 small { color: #6b7a74; font-size: 9pt; margin-left: 6px; }
+  body { margin: 0; font: 400 9pt/1.35 'Manrope', Arial, sans-serif; color: var(--text); background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 210mm; min-height: 297mm; padding: 9mm 10mm 8mm; }
+
+  /* шапка: фото + название */
+  .hero { position: relative; height: 34mm; border-radius: 5mm; overflow: hidden; color: #fff;
+    background: linear-gradient(180deg, rgba(10,18,15,.15), rgba(10,18,15,.78)), url('../assets/img/street-winter.jpg') center 55% / cover; }
+  .hero__in { position: absolute; left: 7mm; right: 7mm; bottom: 5.5mm; display: flex; justify-content: space-between; align-items: flex-end; }
+  .brand { display: flex; gap: 3mm; align-items: center; }
+  .brand svg { width: 11mm; height: 11mm; color: #f2a65a; }
+  .brand b { display: block; font-weight: 300; font-size: 25pt; letter-spacing: -.03em; line-height: 1; }
+  .brand span { display: block; margin-top: 1.4mm; font-size: 8.5pt; color: rgba(255,255,255,.85); }
+  .badge { padding: 1.6mm 4mm; border-radius: 99px; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35); font-size: 8pt; letter-spacing: .12em; text-transform: uppercase; }
+
+  /* полоса фактов */
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 3mm; background: var(--card); border-radius: 4mm; padding: 3mm 0; }
+  .facts div { text-align: center; padding: 0 2mm; }
+  .facts div + div { border-left: 1px solid var(--line); }
+  .facts b { display: block; font-weight: 500; font-size: 11pt; }
+  .facts span { color: var(--muted); font-size: 7.5pt; }
+
+  /* разделы */
+  .sec { margin-top: 2.6mm; background: var(--card); border-radius: 4mm; padding: 3.2mm 4.5mm 2.4mm; }
+  .sec h2 { margin: 0 0 1.6mm; display: flex; align-items: baseline; gap: 3mm; font-weight: 500; font-size: 12pt; letter-spacing: -.01em; }
+  .sec h2 small { font-weight: 400; color: var(--muted); font-size: 8pt; }
+  .sec h2 .eyebrow { margin-left: auto; color: var(--accent); font-size: 7pt; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
   table { width: 100%; border-collapse: collapse; }
-  th { text-align: left; font-weight: 500; font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: #6b7a74; padding: 0 6px 5px; border-bottom: 1px solid #d9dfdb; }
-  td { padding: 3.4px 6px; border-bottom: 1px solid #eef1ef; vertical-align: top; }
-  td.num { width: 22mm; color: #6b7a74; }
-  td.price { width: 30mm; text-align: right; font-weight: 500; white-space: nowrap; }
-  th.price { text-align: right; }
-  td.note { color: #a8652a; font-size: 9pt; }
-  .tag { display: inline-block; font-size: 8pt; padding: 1px 7px; border-radius: 99px; border: 1px solid #d9dfdb; color: #6b7a74; margin-left: 4px; }
-  .tag.ok { border-color: #e8b98a; color: #a8652a; }
-  .notes { margin-top: 5mm; padding: 4mm 5mm; background: #f4f6f4; border-radius: 4mm; font-size: 9pt; color: #44524c; }
-  .notes p { margin: 0 0 1mm; }
-  footer { margin-top: 4mm; display: flex; justify-content: space-between; align-items: center; font-size: 9pt; color: #6b7a74; }
-  footer b { color: #1c2a25; font-size: 13pt; font-weight: 500; }
+  th { text-align: left; font-weight: 500; font-size: 7pt; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 0 2mm 1.2mm; border-bottom: 1px solid var(--line); }
+  td { padding: .95mm 2mm; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  td.num { width: 17mm; color: var(--muted); }
+  td.num b { display: inline-grid; place-items: center; width: 5.4mm; height: 5.4mm; border-radius: 50%; background: #e7eee5; color: var(--pine); font-weight: 600; font-size: 8pt; }
+  td.price, th.price { text-align: right; }
+  td.price { width: 27mm; font-weight: 600; font-size: 10pt; white-space: nowrap; }
+  td.note { color: var(--accent); font-size: 8pt; }
+  .tag { display: inline-block; font-size: 7pt; padding: .4mm 2mm; border-radius: 99px; margin-left: 1.5mm; vertical-align: 1px; background: #eef1ec; color: var(--muted); }
+  .tag.ok { background: #fbeadb; color: #a8581c; }
+
+  /* нижний зелёный блок */
+  .bottom { display: grid; grid-template-columns: 1.55fr 1fr; gap: 3mm; margin-top: 2.6mm; }
+  .info { background: var(--pine); color: var(--cream); border-radius: 4mm; padding: 4mm 5mm; }
+  .info p { margin: 0 0 1.4mm; padding-left: 4mm; position: relative; font-size: 8.3pt; color: #e6eee9; }
+  .info p::before { content: ''; position: absolute; left: 0; top: 1.5mm; width: 1.6mm; height: 1.6mm; border-radius: 50%; background: var(--accent); }
+  .info p:last-child { margin: 0; }
+  .contact { background: var(--accent); color: #fff; border-radius: 4mm; padding: 4mm 5mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .contact span { font-size: 7.5pt; letter-spacing: .14em; text-transform: uppercase; opacity: .9; }
+  .contact b { font-size: 15pt; font-weight: 600; letter-spacing: -.01em; }
+  .contact small { font-size: 7.5pt; opacity: .9; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .cols td.price { width: 20mm; }
+  .legal { margin-top: 2.5mm; text-align: center; font-size: 7pt; color: var(--muted); }
+  /* компактнее, чтобы поместиться на A4 */
+  .page{padding:8mm 10mm 6mm}
+  .hero{height:28mm}
+  .brand b{font-size:22pt}
+  .facts{padding:2.2mm 0;margin-top:2.4mm}
+  .sec{margin-top:2.2mm;padding:2.6mm 4.5mm 1.6mm}
+  .sec h2{margin-bottom:1mm;font-size:11pt}
+  td{padding:.62mm 2mm}
+  th{padding-bottom:.8mm}
+  .bottom{margin-top:2.2mm}
+  .info{padding:3mm 4.5mm}.contact{padding:3mm 4.5mm}
+  .info p{margin-bottom:.9mm;font-size:8pt}
+  .legal{margin-top:1.6mm}
 </style>
 </head>
 <body>
 <div class="page">
-  <header>
-    <div class="brand">
-      <svg viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M6 30 L20 12 L34 30" fill="none" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M12 30 V22 M28 30 V22" fill="none" stroke="currentColor" stroke-width="1.6"/>
-        <circle cx="20" cy="7" r="2.2" fill="currentColor"/>
-        <path d="M3 33 H37" stroke="currentColor" stroke-width="1.6"/>
-      </svg>
-      <div><b>Светлая Дача</b><span>Приозерский район, КП Светлое Дача · 3,5 км от пос. Мичуринское</span></div>
+  <div class="hero">
+    <div class="hero__in">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M6 30 L20 12 L34 30" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M12 30 V22 M28 30 V22" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="20" cy="7" r="2.2" fill="currentColor"/>
+          <path d="M3 33 H37" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+        <div><b>Светлая Дача</b><span>КП Светлое Дача · Приозерский район · 3,5 км от пос. Мичуринское</span></div>
+      </div>
+      <div class="badge">Прайс-лист</div>
     </div>
-    <div class="meta"><strong>Прайс-лист</strong><span>актуальные цены и наличие — в отделе продаж</span></div>
-  </header>
-
-  <h2>Дома <small>цена включает землю под домом</small></h2>
-  <table><thead><tr><th>Участок</th><th>Лот</th><th></th><th class="price">Цена</th></tr></thead><tbody id="houses"></tbody></table>
-
-  <h2>Половины дуплексов <small>½ дома и ½ земли под ним</small></h2>
-  <table><thead><tr><th>Участок</th><th>Лот</th><th></th><th class="price">Цена</th></tr></thead><tbody id="duplex"></tbody></table>
-
-  <h2>Земельные участки</h2>
-  <table><thead><tr><th>Участок</th><th>Площадь</th><th>За сотку</th><th class="price">Цена</th></tr></thead><tbody id="land"></tbody></table>
-
-  <div class="notes">
-    <p>Дома 65–72 м²: кухня-гостиная на первом этаже, 2 спальни наверху, 4+2 спальных места. Газ в посёлке.</p>
-    <p>Ремонт под ключ для отдельного дома без ремонта — 2 млн ₽. Ремонт в дуплексе — по запросу.</p>
-    <p>В посёлке работает посуточная аренда: дом можно передать в управление. Условия — по запросу.</p>
-    <p>Информация не является публичной офертой. Номера участков — по плану посёлка на сайте.</p>
   </div>
 
-  <footer>
-    <span>Отдел продаж</span>
-    <b>+7 921 413-38-72</b>
-  </footer>
+  <div class="facts">
+    <div><b>5–8 мин</b><span>до трёх горнолыжных склонов</span></div>
+    <div><b>Газ</b><span>в посёлке</span></div>
+    <div><b>65–72 м²</b><span>дома, 2 спальни</span></div>
+    <div><b id="cnt">27</b><span>лотов в продаже</span></div>
+  </div>
+
+  <div class="sec">
+    <h2>Дома <small>цена включает землю под домом</small><span class="eyebrow">отдельный дом</span></h2>
+    <table><thead><tr><th>Участок</th><th>Лот</th><th></th><th class="price">Цена</th></tr></thead><tbody id="houses"></tbody></table>
+  </div>
+
+  <div class="sec">
+    <h2>Половины дуплексов <small>½ дома и ½ земли под ним</small><span class="eyebrow">свой вход и терраса</span></h2>
+    <table><thead><tr><th>Участок</th><th>Лот</th><th></th><th class="price">Цена</th></tr></thead><tbody id="duplex"></tbody></table>
+  </div>
+
+  <div class="sec">
+    <h2>Земельные участки <small>без строений</small><span class="eyebrow">от 8 до 12 соток</span></h2>
+    <div class="cols"><table><thead><tr><th>Участок</th><th>Площадь</th><th>За сотку</th><th class="price">Цена</th></tr></thead><tbody id="land"></tbody></table>
+    <table><thead><tr><th>Участок</th><th>Площадь</th><th>За сотку</th><th class="price">Цена</th></tr></thead><tbody id="land2"></tbody></table></div>
+  </div>
+
+  <div class="bottom">
+    <div class="info">
+      <p>Дома 65–72 м²: кухня-гостиная внизу, 2 спальни наверху, 4+2 спальных места.</p>
+      <p>Ремонт под ключ для отдельного дома без ремонта — 2 млн ₽. Ремонт в дуплексе — по запросу.</p>
+      <p>В посёлке налажена посуточная аренда: дом можно передать в управление.</p>
+      <p>Номера участков — по плану посёлка на сайте. Информация не является публичной офертой.</p>
+    </div>
+    <div class="contact">
+      <span>Отдел продаж</span>
+      <b>+7 921 413-38-72</b>
+      <small>Актуальные цены и наличие уточняйте по телефону</small>
+    </div>
+  </div>
 </div>
 
 <script src="../assets/js/data.js"></script>
@@ -78,14 +136,18 @@
   const sot = (m2) => (m2 / 100).toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + ' сот.';
   const RENO = window.SITE.renovationPrice;
   const lots = window.buildLots();
-  const num = (l) => (l.plot ? '№ ' + l.plot : '—');
+  const num = (l) => (l.plot ? `<b>${l.plot}</b>` : '—');
   const tag = (l) => (l.renov ? '<span class="tag ok">с ремонтом</span>' : '<span class="tag">без ремонта</span>');
+  document.getElementById('cnt').textContent = lots.length;
   document.getElementById('houses').innerHTML = lots.filter((l) => l.type === 'house').map((l) =>
     `<tr><td class="num">${num(l)}</td><td>Дом ${tag(l)}</td><td class="note">${!l.renov ? 'с ремонтом под ключ — ' + mln(l.price + RENO) : ''}</td><td class="price">${mln(l.price)}</td></tr>`).join('');
   document.getElementById('duplex').innerHTML = lots.filter((l) => l.type === 'duplex').map((l) =>
     `<tr><td class="num">${num(l)}</td><td>½ дуплекса ${tag(l)}</td><td class="note">${!l.renov ? 'ремонт — по запросу' : ''}</td><td class="price">${mln(l.price)}</td></tr>`).join('');
-  document.getElementById('land').innerHTML = lots.filter((l) => l.type === 'land').map((l) =>
-    `<tr><td class="num">${num(l)}</td><td>${sot(l.plotArea)} · ${l.plotArea} м²</td><td>${Math.round(l.price / l.plotArea * 100).toLocaleString('ru-RU')} ₽</td><td class="price">${mln(l.price)}</td></tr>`).join('');
+  const land = lots.filter((l) => l.type === 'land').map((l) =>
+    `<tr><td class="num">${num(l)}</td><td>${sot(l.plotArea)}</td><td>${Math.round(l.price / l.plotArea * 100).toLocaleString('ru-RU')} ₽</td><td class="price">${mln(l.price)}</td></tr>`);
+  const h = Math.ceil(land.length / 2);
+  document.getElementById('land').innerHTML = land.slice(0, h).join('');
+  document.getElementById('land2').innerHTML = land.slice(h).join('');
 </script>
 </body>
 </html>
